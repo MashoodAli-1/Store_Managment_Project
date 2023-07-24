@@ -13,7 +13,7 @@ export default createBrowserRouter([
     children: [
       {
         path: "/home",
-        element: <Admin />,
+        element: <App />,
       },
       {
         path: "/",

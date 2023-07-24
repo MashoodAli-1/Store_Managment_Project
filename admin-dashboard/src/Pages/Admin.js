@@ -15,35 +15,30 @@ import Paper from "@mui/material/Paper";
 // import Link from "@mui/material/Link";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import ResourceInfo from "../components/ResourceInfo";
+import TableData from "../components/TableData";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import HomeIcon from "@mui/icons-material/Home";
 import CameraIcon from "@mui/icons-material/Camera";
-import ResourceForm from "../components/ResourceForm";
+import CompanyForm from "../components/CompanyForm";
+import CustomerForm from "../components/CustomerForm";
 import ListSubheader from "@mui/material/ListSubheader";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useNavigate } from "react-router-dom";
 import LineCharts from "../components/LineCharts";
 import DateForm from "../components/DateForm";
-// function Copyright(props) {
-//   return (
-//     <Typography
-//       variant="body2"
-//       color="text.secondary"
-//       align="center"
-//       {...props}
-//     >
-//       {"Copyright © "}
-//       <Link color="inherit" href="https://mui.com/">
-//         Your Website
-//       </Link>{" "}
-//       {new Date().getFullYear()}
-//       {"."}
-//     </Typography>
-//   );
-// }
+import { TableContext } from "../App";
+
+import GroupIcon from "@mui/icons-material/Group";
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import PeopleIcon from "@mui/icons-material/People";
+import LocalMallIcon from "@mui/icons-material/LocalMall";
+import BusinessIcon from "@mui/icons-material/Business";
+import PersonIcon from "@mui/icons-material/Person";
+import CategoryIcon from "@mui/icons-material/Category";
+import Catagory from "../components/Catagory";
+import AddStock from "../components/AddStock";
 
 const drawerWidth = 240;
 
@@ -94,54 +89,60 @@ const Drawer = styled(MuiDrawer, {
 const mdTheme = createTheme();
 
 function DashboardContent() {
+  const { tableData, setTableData } = React.useContext(TableContext);
+  console.log(`Table data = ${tableData.header},${tableData.data}`);
+  const { header, data } = tableData;
+  console.log(`Table data2 = ${header},${data}`);
   const navigate = useNavigate();
-  const [data, setdata] = React.useState([]);
+  // const [data, setdata] = React.useState([]);
   // const [select, setSelected] = React.useState({});
   const [resourceData, setResourceData] = React.useState([]);
   const [cameraIp, setCameraIp] = React.useState("");
   const [open, setOpen] = React.useState(true);
   const [count, setCount] = React.useState([]);
+  const [render, setRender] = React.useState("");
+
   const toggleDrawer = () => {
     setOpen(!open);
   };
 
-  React.useEffect(() => {
-    setTimeout(() => {
-      fetchResource();
-      console.log("called");
-    }, 5000);
-    fetchResource();
-  }, []);
+  // React.useEffect(() => {
+  //   setTimeout(() => {
+  //     fetchResource();
+  //     console.log("called");
+  //   }, 5000);
+  //   fetchResource();
+  // }, []);
 
-  const fetchResource = async () => {
-    const res = await fetch("http://localhost:4001/getData");
-    const { data } = await res.json();
-    const uniqueData = data.filter((obj, index, self) => {
-      return index === self.findIndex((t) => t.CameraIp === obj.CameraIp);
-    });
-    console.log(uniqueData);
-    setdata(uniqueData);
-    // fetchData();
-    console.log(data);
-  };
+  // const fetchResource = async () => {
+  //   const res = await fetch("http://localhost:4001/getData");
+  //   const { data } = await res.json();
+  //   const uniqueData = data.filter((obj, index, self) => {
+  //     return index === self.findIndex((t) => t.CameraIp === obj.CameraIp);
+  //   });
+  //   console.log(uniqueData);
+  //   setdata(uniqueData);
+  //   // fetchData();
+  //   console.log(data);
+  // };
 
-  const fetchData = async () => {
-    const res = await fetch("http://localhost:4001/cameraIp");
-    const { data } = await res.json();
-    setdata([...new Set(data)]);
-  };
+  // const fetchData = async () => {
+  //   const res = await fetch("http://localhost:4001/cameraIp");
+  //   const { data } = await res.json();
+  //   setdata([...new Set(data)]);
+  // };
 
-  const fetchResourceData = async (CameraIp) => {
-    const res = await fetch(`http://localhost:4001/getData/${CameraIp}`);
-    const { data, count } = await res.json();
-    setResourceData(data);
-    setCount(count);
-    console.log(`resource data = ${data[0]}`);
-    setTimeout(() => {
-      fetchResourceData(CameraIp);
-      console.log("Called");
-    }, 4000);
-  };
+  // const fetchResourceData = async (CameraIp) => {
+  //   const res = await fetch(`http://localhost:4001/getData/${CameraIp}`);
+  //   const { data, count } = await res.json();
+  //   setResourceData(data);
+  //   setCount(count);
+  //   console.log(`resource data = ${data[0]}`);
+  //   setTimeout(() => {
+  //     fetchResourceData(CameraIp);
+  //     console.log("Called");
+  //   }, 4000);
+  // };
 
   return (
     <ThemeProvider theme={mdTheme}>
@@ -172,7 +173,7 @@ function DashboardContent() {
               noWrap
               sx={{ flexGrow: 1 }}
             >
-              Ai Video Analytics Project
+              Managemennt System
             </Typography>
             <Button
               color="inherit"
@@ -208,28 +209,82 @@ function DashboardContent() {
           </Toolbar>
           <Divider />
           <div>
+            <ListItemButton
+              onClick={() => {
+                setRender("Companies");
+                setTableData({
+                  header: ["Company Name", "Phone", "Address"],
+                  data: [["NayaTel", "03137047282", "Jhang"]],
+                });
+              }}
+            >
+              <ListItemIcon>
+                <BusinessIcon color="primary" />
+              </ListItemIcon>
+              <ListItemText primary="Companies" />
+            </ListItemButton>
+            <ListItemButton
+              onClick={() => {
+                setRender("Customer");
+                setTableData({
+                  header: ["Customer Name", "Cnic", "Address", "Phone"],
+                  data: [["mashood", "33202123", "Jhang", "03137047282"]],
+                });
+              }}
+            >
+              <ListItemIcon>
+                <PersonIcon color="primary" />
+              </ListItemIcon>
+              <ListItemText primary="Customer" />
+            </ListItemButton>
+            <ListItemButton
+              onClick={() => {
+                setRender("AddStock");
+                setTableData({
+                  header: ["Name", "Catagory", "Quantity", "Price(Rs)"],
+                  data: [
+                    ["service", "tyre", "10", "300"],
+                    ["service", "flags", "10", "300"],
+                    ["service", "tube", "10", "300"],
+                  ],
+                });
+              }}
+            >
+              <ListItemIcon>
+                <AddShoppingCartIcon color="primary" />
+              </ListItemIcon>
+              <ListItemText primary="Add Stock" />
+            </ListItemButton>
+            <ListItemButton
+              onClick={() => {
+                setRender("Category");
+                setTableData({
+                  header: ["Category Name", "Price(Rs)"],
+                  data: [
+                    ["Tube", "300"],
+                    ["Tyres", "400"],
+                    ["Flages", "400"],
+                  ],
+                });
+              }}
+            >
+              <ListItemIcon>
+                <CategoryIcon color="primary" />
+              </ListItemIcon>
+              <ListItemText primary="Category" />
+            </ListItemButton>
             <ListItemButton>
               <ListItemIcon>
-                <HomeIcon color="primary" />
+                <PeopleIcon color="primary" />
               </ListItemIcon>
-              <ListItemText primary="Home" />
+              <ListItemText primary="Parties" />
             </ListItemButton>
-            <div>
-              {data.map((row) => (
-                <ListItemButton
-                  onClick={() => {
-                    console.log(row._id);
-                    fetchResourceData(row.CameraIp);
-                    setCameraIp(row.CameraIp);
-                  }}
-                >
-                  <ListItemIcon>
-                    <CameraIcon color="primary" />
-                  </ListItemIcon>
-                  <ListItemText primary={row.CameraIp} />
-                </ListItemButton>
-              ))}
-            </div>
+            <ListItemButton>
+              <ListItemIcon>
+                <LocalMallIcon color="primary" />
+              </ListItemIcon>
+              <ListItemText primary="Sales" />
+            </ListItemButton>
           </div>
           <Divider sx={{ my: 1 }} />
           <div>
@@ -262,27 +317,26 @@ function DashboardContent() {
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Grid container spacing={3}>
               <Grid item xs={12}>
-                {/* <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}> */}
-                <ResourceForm fetchResources={fetchResource} />
-                {/* </Paper> */}
+                {render === "Companies" && <CompanyForm />}
               </Grid>
               <Grid item xs={12}>
-                {/* <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}> */}
-                <DateForm cameraIp={cameraIp} />
-                {/* </Paper> */}
+                {render === "Customer" && <CustomerForm />}
               </Grid>
               <Grid item xs={12}>
-                {/* <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}> */}
+                {render === "Category" && <Catagory />}
+              </Grid>
+              <Grid item xs={12}>
+                {render === "AddStock" && <AddStock />}
+              </Grid>
+
+              {/* <Grid item xs={12}>
                 <LineCharts count={count} />
-                {/* <LineChart cameraIp="192.168.1.1" /> */}
-                {/* </Paper> */}
               </Grid>
-              {/* Recent Orders */}
               <Grid item xs={12}>
                 <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-                  <ResourceInfo resourceData={resourceData} />
+                  <ResourceInfo />
                 </Paper>
-              </Grid>
+              </Grid> */}
             </Grid>
           </Container>
         </Box>
