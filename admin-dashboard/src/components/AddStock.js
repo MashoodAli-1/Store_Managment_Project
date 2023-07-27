@@ -33,7 +33,7 @@ export default function AddStock() {
   return (
     <Card sx={{ minWidth: 275, marginTop: 4 }}>
       <CardContent>
-        <sTypography variant="h6">Add New Customer</sTypography>
+        <sTypography variant="h6">Add New Item</sTypography>
         <form onSubmit={handleSubmit}>
           <div style={{ display: "flex", alignItems: "center" }}>
             <TextField

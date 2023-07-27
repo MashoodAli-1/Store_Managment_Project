@@ -8,16 +8,13 @@ import TableRow from "@mui/material/TableRow";
 import Title from "./Title";
 import dayjs from "dayjs";
 import { TableContext } from "../App";
-
+import { useSelector } from "react-redux";
 function preventDefault(event) {
   event.preventDefault();
 }
 
 export default function ResourceInfo() {
-  const { tableData } = React.useContext(TableContext);
-  console.log(`Table data = ${tableData.header},${tableData.data}`);
-  const { header, data } = tableData;
-  console.log(`Table data2 = ${header},${data}`);
+  const { header, data } = useSelector((state) => state.data);
 
   // const formateDate = (date) => {
   //   return dayjs(date).format("DD-MMM, YYYY H:M:S");
@@ -32,21 +29,9 @@ export default function ResourceInfo() {
             {header.map((element, index) => (
               <TableCell key={index}>{element}</TableCell>
             ))}
-            {/* <TableCell>Date</TableCell>
-            <TableCell>PersonIn</TableCell>
-            <TableCell>PersonOut</TableCell> */}
           </TableRow>
         </TableHead>
-        {/* <TableBody>
-          {data.map((row, index) => (
-            <TableRow key={index}>
-              <TableCell>{row[0]}</TableCell>
-              <TableCell>{row[1]}</TableCell>
-              <TableCell>{row[2]}</TableCell>
-              <TableCell>{row[3]}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody> */}
+
         <TableBody>
           {data.map((row, index) => (
             <TableRow key={index}>
@@ -57,9 +42,6 @@ export default function ResourceInfo() {
           ))}
         </TableBody>
       </Table>
-      {/* <Link color="primary" href="#" onClick={preventDefault} sx={{ mt: 3 }}>
-        See more orders
-      </Link> */}
     </React.Fragment>
   );
 }

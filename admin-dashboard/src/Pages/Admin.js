@@ -39,6 +39,10 @@ import PersonIcon from "@mui/icons-material/Person";
 import CategoryIcon from "@mui/icons-material/Category";
 import Catagory from "../components/Catagory";
 import AddStock from "../components/AddStock";
+import { useDispatch, useSelector } from "react-redux";
+
+import { setHeader, setData } from "../features/Data/DataSlice";
+import Parties from "../components/Parties";
 
 const drawerWidth = 240;
 
@@ -89,10 +93,7 @@ const Drawer = styled(MuiDrawer, {
 const mdTheme = createTheme();
 
 function DashboardContent() {
-  const { tableData, setTableData } = React.useContext(TableContext);
-  console.log(`Table data = ${tableData.header},${tableData.data}`);
-  const { header, data } = tableData;
-  console.log(`Table data2 = ${header},${data}`);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   // const [data, setdata] = React.useState([]);
   // const [select, setSelected] = React.useState({});
@@ -212,10 +213,8 @@ function DashboardContent() {
             <ListItemButton
               onClick={() => {
                 setRender("Companies");
-                setTableData({
-                  header: ["Company Name", "Phone", "Address"],
-                  data: [["NayaTel", "03137047282", "Jhang"]],
-                });
+                dispatch(setHeader(["Company Name", "Phone", "Address"]));
+                dispatch(setData([["NayaTel", "03137047282", "Jhang"]]));
               }}
             >
               <ListItemIcon>
@@ -226,10 +225,12 @@ function DashboardContent() {
             <ListItemButton
               onClick={() => {
                 setRender("Customer");
-                setTableData({
-                  header: ["Customer Name", "Cnic", "Address", "Phone"],
-                  data: [["mashood", "33202123", "Jhang", "03137047282"]],
-                });
+                dispatch(
+                  setHeader(["Customer Name", "Cnic", "Address", "Phone"])
+                );
+                dispatch(
+                  setData([["mashood", "33202123", "Jhang", "03137047282"]])
+                );
               }}
             >
               <ListItemIcon>
@@ -240,14 +241,16 @@ function DashboardContent() {
             <ListItemButton
               onClick={() => {
                 setRender("AddStock");
-                setTableData({
-                  header: ["Name", "Catagory", "Quantity", "Price(Rs)"],
-                  data: [
+                dispatch(
+                  setHeader(["Name", "Catagory", "Quantity", "Price(Rs)"])
+                );
+                dispatch(
+                  setData([
                     ["service", "tyre", "10", "300"],
                     ["service", "flags", "10", "300"],
                     ["service", "tube", "10", "300"],
-                  ],
-                });
+                  ])
+                );
               }}
             >
               <ListItemIcon>
@@ -258,14 +261,14 @@ function DashboardContent() {
             <ListItemButton
               onClick={() => {
                 setRender("Category");
-                setTableData({
-                  header: ["Category Name", "Price(Rs)"],
-                  data: [
+                dispatch(setHeader(["Category Name", "Price(Rs)"]));
+                dispatch(
+                  setData([
                     ["Tube", "300"],
                     ["Tyres", "400"],
                     ["Flages", "400"],
-                  ],
-                });
+                  ])
+                );
               }}
             >
               <ListItemIcon>
@@ -273,7 +276,15 @@ function DashboardContent() {
               </ListItemIcon>
               <ListItemText primary="Category" />
             </ListItemButton>
-            <ListItemButton>
+            <ListItemButton
+              onClick={() => {
+                setRender("Party");
+                dispatch(setHeader(["Party Name", "Cnic", "Address", "Phone"]));
+                dispatch(
+                  setData([["mashood", "33202123", "Jhang", "03137047282"]])
+                );
+              }}
+            >
               <ListItemIcon>
                 <PeopleIcon color="primary" />
               </ListItemIcon>
@@ -327,6 +338,9 @@ function DashboardContent() {
               </Grid>
               <Grid item xs={12}>
                 {render === "AddStock" && <AddStock />}
+              </Grid>
+              <Grid item xs={12}>
+                {render === "Party" && <Parties />}
               </Grid>
 
               {/* <Grid item xs={12}>
