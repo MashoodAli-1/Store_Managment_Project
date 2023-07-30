@@ -6,9 +6,13 @@ export const createCompany = async (req, res) => {
     const { cname, phoneNo, address } = req.body;
     const newCompany = new Company({ cname, phoneNo, address });
     await newCompany.save();
-    res.status(201).json({ message: "Company created successfully", company: newCompany });
+    res
+      .status(201)
+      .json({ message: "Company created successfully", company: newCompany });
   } catch (error) {
-    res.status(500).json({ message: "Something went wrong", error: error.message });
+    res
+      .status(500)
+      .json({ message: "Something went wrong", error: error.message });
   }
 };
 
@@ -18,7 +22,9 @@ export const getAllCompanies = async (req, res) => {
     const companies = await Company.find();
     res.status(200).json(companies);
   } catch (error) {
-    res.status(500).json({ message: "Something went wrong", error: error.message });
+    res
+      .status(500)
+      .json({ message: "Something went wrong", error: error.message });
   }
 };
 
@@ -32,7 +38,9 @@ export const getCompanyByName = async (req, res) => {
     }
     res.status(200).json(company);
   } catch (error) {
-    res.status(500).json({ message: "Something went wrong", error: error.message });
+    res
+      .status(500)
+      .json({ message: "Something went wrong", error: error.message });
   }
 };
 
@@ -48,9 +56,16 @@ export const updateCompanyByName = async (req, res) => {
     if (!updatedCompany) {
       return res.status(404).json({ message: "Company not found" });
     }
-    res.status(200).json({ message: "Company updated successfully", company: updatedCompany });
+    res
+      .status(200)
+      .json({
+        message: "Company updated successfully",
+        company: updatedCompany,
+      });
   } catch (error) {
-    res.status(500).json({ message: "Something went wrong", error: error.message });
+    res
+      .status(500)
+      .json({ message: "Something went wrong", error: error.message });
   }
 };
 
@@ -62,8 +77,100 @@ export const deleteCompanyByName = async (req, res) => {
     if (!deletedCompany) {
       return res.status(404).json({ message: "Company not found" });
     }
-    res.status(200).json({ message: "Company deleted successfully", company: deletedCompany });
+    res
+      .status(200)
+      .json({
+        message: "Company deleted successfully",
+        company: deletedCompany,
+      });
   } catch (error) {
-    res.status(500).json({ message: "Something went wrong", error: error.message });
+    res
+      .status(500)
+      .json({ message: "Something went wrong", error: error.message });
+  }
+};
+import Item from "../models/items";
+
+// Create a new item
+export const createItem = async (req, res) => {
+  try {
+    const { size, itemName, catagory, price } = req.body;
+    const newItem = new Item({ size, itemName, catagory, price });
+    await newItem.save();
+    res
+      .status(201)
+      .json({ message: "Item created successfully", item: newItem });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Something went wrong", error: error.message });
+  }
+};
+
+// Get all items
+export const getAllItems = async (req, res) => {
+  try {
+    const items = await Item.find();
+    res.status(200).json(items);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Something went wrong", error: error.message });
+  }
+};
+
+// Get a specific item by name
+export const getItemByName = async (req, res) => {
+  try {
+    const { itemName } = req.body;
+    const item = await Item.findOne({ itemName });
+    if (!item) {
+      return res.status(404).json({ message: "Item not found" });
+    }
+    res.status(200).json(item);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Something went wrong", error: error.message });
+  }
+};
+
+// Update an item by name
+export const updateItemByName = async (req, res) => {
+  try {
+    const { size, itemName, catagory, price } = req.body;
+    const updatedItem = await Item.findOneAndUpdate(
+      { itemName: req.params.itemName },
+      { size, itemName, catagory, price },
+      { new: true }
+    );
+    if (!updatedItem) {
+      return res.status(404).json({ message: "Item not found" });
+    }
+    res
+      .status(200)
+      .json({ message: "Item updated successfully", item: updatedItem });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Something went wrong", error: error.message });
+  }
+};
+
+// Delete an item by name
+export const deleteItemByName = async (req, res) => {
+  try {
+    const { itemName } = req.body;
+    const deletedItem = await Item.findOneAndRemove({ itemName });
+    if (!deletedItem) {
+      return res.status(404).json({ message: "Item not found" });
+    }
+    res
+      .status(200)
+      .json({ message: "Item deleted successfully", item: deletedItem });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Something went wrong", error: error.message });
   }
 };

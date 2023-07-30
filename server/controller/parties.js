@@ -1,7 +1,7 @@
 import Party from "../Model/parties";
 
 // Create a new party
-export const createParty = async (req, res) => {
+const createParty = async (req, res) => {
   try {
     const { pname, phoneNo, address, cnic } = req.body;
     const newParty = new Party({ pname, phoneNo, address, cnic });
@@ -17,7 +17,7 @@ export const createParty = async (req, res) => {
 };
 
 // Get all parties
-export const getAllParties = async (req, res) => {
+const getAllParties = async (req, res) => {
   try {
     const parties = await Party.find();
     res.status(200).json(parties);
@@ -29,7 +29,7 @@ export const getAllParties = async (req, res) => {
 };
 
 // Get a specific party by name
-export const getPartyByName = async (req, res) => {
+const getPartyByName = async (req, res) => {
   try {
     const { name } = req.body;
     const party = await Party.findOne({ pname: name });
@@ -45,7 +45,7 @@ export const getPartyByName = async (req, res) => {
 };
 
 // Update a party by name
-export const updatePartyByName = async (req, res) => {
+const updatePartyByName = async (req, res) => {
   try {
     const { pname, phoneNo, address, cnic } = req.body;
     const updatedParty = await Party.findOneAndUpdate(
@@ -67,7 +67,7 @@ export const updatePartyByName = async (req, res) => {
 };
 
 // Delete a party by name
-export const deletePartyByName = async (req, res) => {
+const deletePartyByName = async (req, res) => {
   try {
     const { name } = req.body;
     const deletedParty = await Party.findOneAndRemove({ pname: name });

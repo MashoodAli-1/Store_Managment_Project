@@ -14,4 +14,5 @@ router
   .get("/one", getPartyByName)
   .put("/", updatePartyByName)
   .delete("/", deletePartyByName);
+  
 module.exports = router;

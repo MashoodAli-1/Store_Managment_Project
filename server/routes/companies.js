@@ -16,4 +16,4 @@ router
   .put("/", updateCompanyByName)
   .delete("/", deleteCompanyByName);
 
-export default router;
+module.exports = router;
