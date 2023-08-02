@@ -1,4 +1,4 @@
-import Category from "../Model/itemCatagory";
+import Category from "../models/itemCatagory.js";
 
 // Create a new category
 export const createCategory = async (req, res) => {
@@ -6,12 +6,10 @@ export const createCategory = async (req, res) => {
     const { cname } = req.body;
     const newCategory = new Category({ cname });
     await newCategory.save();
-    res
-      .status(201)
-      .json({
-        message: "Category created successfully",
-        category: newCategory,
-      });
+    res.status(201).json({
+      message: "Category created successfully",
+      category: newCategory,
+    });
   } catch (error) {
     res
       .status(500)
@@ -59,12 +57,10 @@ export const updateCategoryByName = async (req, res) => {
     if (!updatedCategory) {
       return res.status(404).json({ message: "Category not found" });
     }
-    res
-      .status(200)
-      .json({
-        message: "Category updated successfully",
-        category: updatedCategory,
-      });
+    res.status(200).json({
+      message: "Category updated successfully",
+      category: updatedCategory,
+    });
   } catch (error) {
     res
       .status(500)
@@ -80,12 +76,10 @@ export const deleteCategoryByName = async (req, res) => {
     if (!deletedCategory) {
       return res.status(404).json({ message: "Category not found" });
     }
-    res
-      .status(200)
-      .json({
-        message: "Category deleted successfully",
-        category: deletedCategory,
-      });
+    res.status(200).json({
+      message: "Category deleted successfully",
+      category: deletedCategory,
+    });
   } catch (error) {
     res
       .status(500)

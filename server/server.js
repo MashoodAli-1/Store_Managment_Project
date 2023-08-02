@@ -5,7 +5,10 @@ import connect from "./database/db.js";
 import routes from "./routes/index.js";
 import session from "express-session";
 import cookieParser from "cookie-parser";
-
+import userRoutes from "./routes/users.js";
+import companyRoutes from "./routes/companies.js";
+import customerRoutes from "./routes/customers.js";
+import catagoryRoutes from "./routes/itemCatagory.js";
 // dotenv.config();
 //! port
 const port = 4001;
@@ -16,6 +19,10 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.use("/", routes);
+app.use("/user", userRoutes);
+app.use("/company", companyRoutes);
+app.use("/customer", customerRoutes);
+app.use("/catagory", catagoryRoutes);
 await connect();
 app.listen(port, () => {
   console.log(`server is listening on http://localhost:${port}`);

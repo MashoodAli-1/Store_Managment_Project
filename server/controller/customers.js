@@ -1,16 +1,14 @@
-import Customer from "../Model/customers";
+import Customer from "../models/customers.js";
 
-const createCustomer = async (req, res) => {
+export const createCustomer = async (req, res) => {
   try {
     const { cname, phoneNo, address, cnic } = req.body;
     const newCustomer = new Customer({ cname, phoneNo, address, cnic });
     await newCustomer.save();
-    res
-      .status(201)
-      .json({
-        message: "Customer created successfully",
-        customer: newCustomer,
-      });
+    res.status(201).json({
+      message: "Customer created successfully",
+      customer: newCustomer,
+    });
   } catch (error) {
     res
       .status(500)
@@ -18,7 +16,7 @@ const createCustomer = async (req, res) => {
   }
 };
 
-const getAllCustomers = async (req, res) => {
+export const getAllCustomers = async (req, res) => {
   try {
     const customers = await Customer.find();
     res.status(200).json(customers);
@@ -29,7 +27,7 @@ const getAllCustomers = async (req, res) => {
   }
 };
 
-const getCustomerByName = async (req, res) => {
+export const getCustomerByName = async (req, res) => {
   try {
     const { name } = req.body;
     const customer = await Customer.findOne({ cname: name });
@@ -44,7 +42,7 @@ const getCustomerByName = async (req, res) => {
   }
 };
 
-const updateCustomerByName = async (req, res) => {
+export const updateCustomerByName = async (req, res) => {
   try {
     const { cname, phoneNo, address, cnic } = req.body;
     const updatedCustomer = await Customer.findOneAndUpdate(
@@ -55,12 +53,10 @@ const updateCustomerByName = async (req, res) => {
     if (!updatedCustomer) {
       return res.status(404).json({ message: "Customer not found" });
     }
-    res
-      .status(200)
-      .json({
-        message: "Customer updated successfully",
-        customer: updatedCustomer,
-      });
+    res.status(200).json({
+      message: "Customer updated successfully",
+      customer: updatedCustomer,
+    });
   } catch (error) {
     res
       .status(500)
@@ -68,19 +64,17 @@ const updateCustomerByName = async (req, res) => {
   }
 };
 
-const deleteCustomerByName = async (req, res) => {
+export const deleteCustomerByName = async (req, res) => {
   try {
     const { name } = req.body;
     const deletedCustomer = await Customer.findOneAndRemove({ cname: name });
     if (!deletedCustomer) {
       return res.status(404).json({ message: "Customer not found" });
     }
-    res
-      .status(200)
-      .json({
-        message: "Customer deleted successfully",
-        customer: deletedCustomer,
-      });
+    res.status(200).json({
+      message: "Customer deleted successfully",
+      customer: deletedCustomer,
+    });
   } catch (error) {
     res
       .status(500)
@@ -88,10 +82,10 @@ const deleteCustomerByName = async (req, res) => {
   }
 };
 
-export default {
-  createCustomer,
-  getAllCustomers,
-  getCustomerByName,
-  updateCustomerByName,
-  deleteCustomerByName,
-};
+// module.exports = {
+//   createCustomer,
+//   getAllCustomers,
+//   getCustomerByName,
+//   updateCustomerByName,
+//   deleteCustomerByName,
+// };

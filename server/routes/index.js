@@ -1,7 +1,7 @@
 import { Router, response } from "express";
-import CamerasData from "../Model/camerasData.js";
-import cameras from "../Model/cameras.js";
-import users from "../Model/users.js";
+import CamerasData from "../models/camerasData.js";
+import cameras from "../models/cameras.js";
+import users from "../models/users.js";
 const router = Router();
 
 import { Auth, noAuth } from "../middlewares/authCheck.middleware.js";

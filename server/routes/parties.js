@@ -1,12 +1,13 @@
-const express = require("express");
+// const express = require("express");
+import express from "express";
 const router = express.Router();
-const {
+import {
   createParty,
   deletePartyByName,
   updatePartyByName,
   getPartyByName,
   getAllParties,
-} = require("./companyController");
+} from "../controller/parties.js";
 
 router
   .post("/", createParty)
@@ -14,5 +15,5 @@ router
   .get("/one", getPartyByName)
   .put("/", updatePartyByName)
   .delete("/", deletePartyByName);
-  
+
 module.exports = router;

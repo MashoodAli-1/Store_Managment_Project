@@ -6,7 +6,7 @@ import {
   getCustomerByName,
   updateCustomerByName,
   deleteCustomerByName,
-} from "../controller/customers";
+} from "../controller/customers.js";
 
 // Create a new customer
 router
@@ -24,4 +24,5 @@ router
   // Delete a customer by name
   .delete("/", deleteCustomerByName);
 
-module.exports = router;
+// module.exports = router;
+export default router;

@@ -5,7 +5,7 @@ import {
   getCompanyByName,
   updateCompanyByName,
   deleteCompanyByName,
-} from "../controller/companies";
+} from "../controller/companies.js";
 
 const router = express.Router();
 
@@ -16,4 +16,5 @@ router
   .put("/", updateCompanyByName)
   .delete("/", deleteCompanyByName);
 
-module.exports = router;
+// module.exports = router;
+export default router;
