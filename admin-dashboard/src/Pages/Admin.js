@@ -43,7 +43,9 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { setHeader, setData } from "../features/Data/DataSlice";
 import Parties from "../components/Parties";
-
+import { getAllCompanyRecord } from "../features/Data/CompanySlice";
+import { getAllCustomerRecord } from "../features/Data/CustomerSlice";
+import { getAllCategoryRecord } from "../features/Data/CatagorySlice";
 const drawerWidth = 240;
 
 const AppBar = styled(MuiAppBar, {
@@ -95,6 +97,8 @@ const mdTheme = createTheme();
 function DashboardContent() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { data } = useSelector((state) => state.company);
+
   // const [data, setdata] = React.useState([]);
   // const [select, setSelected] = React.useState({});
   const [resourceData, setResourceData] = React.useState([]);
@@ -213,8 +217,7 @@ function DashboardContent() {
             <ListItemButton
               onClick={() => {
                 setRender("Companies");
-                dispatch(setHeader(["Company Name", "Phone", "Address"]));
-                dispatch(setData([["NayaTel", "03137047282", "Jhang"]]));
+                dispatch(getAllCompanyRecord());
               }}
             >
               <ListItemIcon>
@@ -225,12 +228,7 @@ function DashboardContent() {
             <ListItemButton
               onClick={() => {
                 setRender("Customer");
-                dispatch(
-                  setHeader(["Customer Name", "Cnic", "Address", "Phone"])
-                );
-                dispatch(
-                  setData([["mashood", "33202123", "Jhang", "03137047282"]])
-                );
+                dispatch(getAllCustomerRecord());
               }}
             >
               <ListItemIcon>
@@ -261,14 +259,15 @@ function DashboardContent() {
             <ListItemButton
               onClick={() => {
                 setRender("Category");
-                dispatch(setHeader(["Category Name", "Price(Rs)"]));
-                dispatch(
-                  setData([
-                    ["Tube", "300"],
-                    ["Tyres", "400"],
-                    ["Flages", "400"],
-                  ])
-                );
+                // dispatch(setHeader(["Category Name", "Price(Rs)"]));
+                // dispatch(
+                //   setData([
+                //     ["Tube", "300"],
+                //     ["Tyres", "400"],
+                //     ["Flages", "400"],
+                //   ])
+                // );
+                dispatch(getAllCategoryRecord());
               }}
             >
               <ListItemIcon>

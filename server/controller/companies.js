@@ -3,12 +3,14 @@ import Company from "../models/companies.js";
 // Create a new company
 export const createCompany = async (req, res) => {
   try {
-    const { cname, phoneNo, address } = req.body;
-    const newCompany = new Company({ cname, phoneNo, address });
+    // const { name, phone, address } = req.body;
+    const company = req.body;
+    const newCompany = new Company(company);
     await newCompany.save();
-    res
-      .status(201)
-      .json({ message: "Company created successfully", company: newCompany });
+
+    const companies = await Company.find({});
+
+    res.status(201).json(companies);
   } catch (error) {
     res
       .status(500)
@@ -19,8 +21,7 @@ export const createCompany = async (req, res) => {
 // Get all companies
 export const getAllCompanies = async (req, res) => {
   try {
-    console.log("called request");
-    const companies = await Company.find();
+    const companies = await Company.find({});
     res.status(200).json(companies);
   } catch (error) {
     res
@@ -29,7 +30,7 @@ export const getAllCompanies = async (req, res) => {
   }
 };
 
-// Get a specific company by name
+// Get a specific company by name donot need this api
 export const getCompanyByName = async (req, res) => {
   try {
     const { cname } = req.body;
@@ -46,21 +47,18 @@ export const getCompanyByName = async (req, res) => {
 };
 
 // Update a company by name
-export const updateCompanyByName = async (req, res) => {
+export const updateCompanyById = async (req, res) => {
   try {
-    const { cname, phoneNo, address } = req.body;
+    const { _id, name, phone, address } = req.body;
     const updatedCompany = await Company.findOneAndUpdate(
-      { cname },
-      { cname, phoneNo, address },
+      { _id },
+      { name, phone, address },
       { new: true }
     );
     if (!updatedCompany) {
       return res.status(404).json({ message: "Company not found" });
     }
-    res.status(200).json({
-      message: "Company updated successfully",
-      company: updatedCompany,
-    });
+    res.status(200).json(updatedCompany);
   } catch (error) {
     res
       .status(500)
@@ -69,17 +67,12 @@ export const updateCompanyByName = async (req, res) => {
 };
 
 // Delete a company by name
-export const deleteCompanyByName = async (req, res) => {
+export const deleteCompanyById = async (req, res) => {
   try {
-    const { cname } = req.body;
-    const deletedCompany = await Company.findOneAndRemove({ cname });
-    if (!deletedCompany) {
-      return res.status(404).json({ message: "Company not found" });
-    }
-    res.status(200).json({
-      message: "Company deleted successfully",
-      company: deletedCompany,
-    });
+    const { id } = req.params;
+    console.log(id);
+    await Company.findByIdAndDelete(id);
+    res.status(200).json({ msg: `Deleted the post with ID:${id}` });
   } catch (error) {
     res
       .status(500)

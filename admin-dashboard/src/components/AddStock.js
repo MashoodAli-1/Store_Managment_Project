@@ -33,9 +33,25 @@ export default function AddStock() {
   return (
     <Card sx={{ minWidth: 275, marginTop: 4 }}>
       <CardContent>
-        <sTypography variant="h6">Add New Item</sTypography>
+        <Typography variant="h6">Add New Item</Typography>
         <form onSubmit={handleSubmit}>
           <div style={{ display: "flex", alignItems: "center" }}>
+            <TextField
+              sx={{ marginRight: 5, marginTop: 2 }}
+              id="outlined-basic"
+              label="Name"
+              variant="outlined"
+              size="small"
+              name="name"
+            />
+            <TextField
+              sx={{ marginRight: 5, marginTop: 2 }}
+              id="outlined-basic"
+              label="Size"
+              variant="outlined"
+              size="small"
+              name="size"
+            />
             <TextField
               sx={{ marginRight: 5, marginTop: 2 }}
               id="outlined-basic"
@@ -58,14 +74,7 @@ export default function AddStock() {
                 <TextField {...params} label="Catagory" />
               )}
             />
-            <TextField
-              sx={{ marginRight: 5, marginTop: 2 }}
-              id="outlined-basic"
-              label="Quantity"
-              variant="outlined"
-              size="small"
-              name="quantity"
-            />
+
             <TextField
               sx={{ marginRight: 5, marginTop: 2 }}
               id="outlined-basic"
@@ -74,6 +83,7 @@ export default function AddStock() {
               size="small"
               name="price"
             />
+
             <Button
               type="submit"
               variant="contained"

@@ -4,8 +4,8 @@ import {
   createCustomer,
   getAllCustomers,
   getCustomerByName,
-  updateCustomerByName,
-  deleteCustomerByName,
+  updateCustomerById,
+  deleteCustomerById,
 } from "../controller/customers.js";
 
 // Create a new customer
@@ -19,10 +19,10 @@ router
   .get("/one", getCustomerByName)
 
   // Update a customer by name
-  .put("/", updateCustomerByName)
+  .patch("/update", updateCustomerById)
 
   // Delete a customer by name
-  .delete("/", deleteCustomerByName);
+  .delete("/:id", deleteCustomerById);
 
 // module.exports = router;
 export default router;

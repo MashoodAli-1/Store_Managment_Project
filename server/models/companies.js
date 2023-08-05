@@ -2,8 +2,8 @@ import mongoose from "mongoose";
 const { Schema } = mongoose;
 
 const tableSchema = new Schema({
-  cname: String,
-  phoneNo: Number,
+  name: String,
+  phone: Number,
   address: String,
 });
 mongoose.set("strictQuery", true);

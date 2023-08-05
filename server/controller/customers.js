@@ -2,13 +2,14 @@ import Customer from "../models/customers.js";
 
 export const createCustomer = async (req, res) => {
   try {
-    const { cname, phoneNo, address, cnic } = req.body;
-    const newCustomer = new Customer({ cname, phoneNo, address, cnic });
+    // const { cname, phoneNo, address, cnic } = req.body;
+    const customer = req.body;
+    const newCustomer = new Customer(customer);
     await newCustomer.save();
-    res.status(201).json({
-      message: "Customer created successfully",
-      customer: newCustomer,
-    });
+    console.log(newCustomer);
+    const allCustomer = await Customer.find({});
+    console.log(allCustomer);
+    res.status(201).json(allCustomer);
   } catch (error) {
     res
       .status(500)
@@ -18,7 +19,7 @@ export const createCustomer = async (req, res) => {
 
 export const getAllCustomers = async (req, res) => {
   try {
-    const customers = await Customer.find();
+    const customers = await Customer.find({});
     res.status(200).json(customers);
   } catch (error) {
     res
@@ -27,6 +28,7 @@ export const getAllCustomers = async (req, res) => {
   }
 };
 
+// donot need this api
 export const getCustomerByName = async (req, res) => {
   try {
     const { name } = req.body;
@@ -42,21 +44,18 @@ export const getCustomerByName = async (req, res) => {
   }
 };
 
-export const updateCustomerByName = async (req, res) => {
+export const updateCustomerById = async (req, res) => {
   try {
-    const { cname, phoneNo, address, cnic } = req.body;
+    const { _id, name, phone, address, cnic } = req.body;
     const updatedCustomer = await Customer.findOneAndUpdate(
-      { cname: req.body.name },
-      { cname, phoneNo, address, cnic },
+      { _id },
+      { name, phone, address, cnic },
       { new: true }
     );
     if (!updatedCustomer) {
       return res.status(404).json({ message: "Customer not found" });
     }
-    res.status(200).json({
-      message: "Customer updated successfully",
-      customer: updatedCustomer,
-    });
+    res.status(200).json(updatedCustomer);
   } catch (error) {
     res
       .status(500)
@@ -64,17 +63,12 @@ export const updateCustomerByName = async (req, res) => {
   }
 };
 
-export const deleteCustomerByName = async (req, res) => {
+export const deleteCustomerById = async (req, res) => {
   try {
-    const { name } = req.body;
-    const deletedCustomer = await Customer.findOneAndRemove({ cname: name });
-    if (!deletedCustomer) {
-      return res.status(404).json({ message: "Customer not found" });
-    }
-    res.status(200).json({
-      message: "Customer deleted successfully",
-      customer: deletedCustomer,
-    });
+    const { id } = req.params;
+    await Customer.findByIdAndDelete(id);
+
+    res.status(200).json({ msg: `Deleted the post with ID:${id}` });
   } catch (error) {
     res
       .status(500)

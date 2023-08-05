@@ -13,6 +13,7 @@ const dataSlice = createSlice({
       state.header = payload;
     },
     setData: (state, { payload }) => {
+      console.log(payload + "dataslice");
       state.data = payload;
     },
   },

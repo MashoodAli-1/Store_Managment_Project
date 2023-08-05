@@ -23,7 +23,7 @@ export default function Parties() {
   return (
     <Card sx={{ minWidth: 275, marginTop: 4 }}>
       <CardContent>
-        <sTypography variant="h6">Add New Party</sTypography>
+        <Typography variant="h6">Add New Party</Typography>
         <form onSubmit={handleSubmit}>
           <TextField
             sx={{ marginRight: 5, marginTop: 2 }}

@@ -3,8 +3,8 @@ import {
   createCompany,
   getAllCompanies,
   getCompanyByName,
-  updateCompanyByName,
-  deleteCompanyByName,
+  updateCompanyById,
+  deleteCompanyById,
 } from "../controller/companies.js";
 
 const router = express.Router();
@@ -13,8 +13,8 @@ router
   .post("/", createCompany)
   .get("/all", getAllCompanies)
   .get("/one", getCompanyByName)
-  .put("/", updateCompanyByName)
-  .delete("/", deleteCompanyByName);
+  .patch("/update", updateCompanyById)
+  .delete("/:id", deleteCompanyById);
 
 // module.exports = router;
 export default router;
