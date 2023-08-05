@@ -1,10 +1,10 @@
-import TableData from "../Model/table"
+import TableData from "../Model/table";
 
 const updateData = async (req, res) => {
-    consttitle = req.params;
-    await TableData.create({ title, TimeStamp });
-    res.send("Database Updated!!");
-}
+  consttitle = req.params;
+  await TableData.create({ title, TimeStamp });
+  res.send("Database Updated!!");
+};
 
 export default updateData;
 

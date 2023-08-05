@@ -2,10 +2,10 @@ import mongoose from "mongoose";
 const { Schema } = mongoose;
 
 const tableSchema = new Schema({
-  pname: String,
-  phoneNo: Number,
+  name: String,
+  phone: Number,
   address: String,
-  cnic: Number,
+  cnic: String,
 });
 mongoose.set("strictQuery", true);
 export default new mongoose.model("parties", tableSchema);

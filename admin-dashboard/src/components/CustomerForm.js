@@ -91,6 +91,7 @@ export default function CustomerForm() {
             variant="outlined"
             size="small"
             name="phone"
+            type="number"
             value={customer.phone}
             onChange={handleChange}
           />

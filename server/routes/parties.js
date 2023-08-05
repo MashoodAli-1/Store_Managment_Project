@@ -3,17 +3,15 @@ import express from "express";
 const router = express.Router();
 import {
   createParty,
-  deletePartyByName,
-  updatePartyByName,
-  getPartyByName,
+  deletePartyById,
+  updatePartyById,
   getAllParties,
 } from "../controller/parties.js";
 
 router
   .post("/", createParty)
   .get("/all", getAllParties)
-  .get("/one", getPartyByName)
-  .put("/", updatePartyByName)
-  .delete("/", deletePartyByName);
+  .patch("/update", updatePartyById)
+  .delete("/:id", deletePartyById);
 
-module.exports = router;
+export default router;
