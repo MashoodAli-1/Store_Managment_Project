@@ -117,10 +117,10 @@ export const getAllItems = async (req, res) => {
 
 export const updateItemById = async (req, res) => {
   try {
-    const { _id, name, size, category, price } = req.body;
+    const { _id, name, size, catagory, price, quantity } = req.body;
     const updatedItem = await Item.findOneAndUpdate(
       { _id },
-      { name, size, category, price },
+      { name, size, catagory, price, quantity },
       { new: true }
     );
     if (!updatedItem) {

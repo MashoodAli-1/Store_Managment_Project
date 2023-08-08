@@ -6,6 +6,7 @@ const tableSchema = new Schema({
   size: Number,
   catagory: String,
   price: Number,
+  quantity: Number,
 });
 mongoose.set("strictQuery", true);
 export default new mongoose.model("items", tableSchema);

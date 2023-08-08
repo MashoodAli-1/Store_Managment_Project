@@ -47,6 +47,7 @@ import { getAllCompanyRecord } from "../features/Data/CompanySlice";
 import { getAllCustomerRecord } from "../features/Data/CustomerSlice";
 import { getAllCategoryRecord } from "../features/Data/CatagorySlice";
 import { getAllPartyRecord } from "../features/Data/PartiesSlice";
+import { getAllItemRecord } from "../features/Data/StockSlice";
 const drawerWidth = 240;
 
 const AppBar = styled(MuiAppBar, {
@@ -240,16 +241,17 @@ function DashboardContent() {
             <ListItemButton
               onClick={() => {
                 setRender("AddStock");
-                dispatch(
-                  setHeader(["Name", "Catagory", "Quantity", "Price(Rs)"])
-                );
-                dispatch(
-                  setData([
-                    ["service", "tyre", "10", "300"],
-                    ["service", "flags", "10", "300"],
-                    ["service", "tube", "10", "300"],
-                  ])
-                );
+                // dispatch(
+                //   setHeader(["Name", "Catagory", "Quantity", "Price(Rs)"])
+                // );
+                // dispatch(
+                //   setData([
+                //     ["service", "tyre", "10", "300"],
+                //     ["service", "flags", "10", "300"],
+                //     ["service", "tube", "10", "300"],
+                //   ])
+                // );
+                dispatch(getAllItemRecord());
               }}
             >
               <ListItemIcon>
@@ -271,10 +273,6 @@ function DashboardContent() {
             <ListItemButton
               onClick={() => {
                 setRender("Party");
-                // dispatch(setHeader(["Party Name", "Cnic", "Address", "Phone"]));
-                // dispatch(
-                //   setData([["mashood", "33202123", "Jhang", "03137047282"]])
-                // );
                 dispatch(getAllPartyRecord());
               }}
             >
