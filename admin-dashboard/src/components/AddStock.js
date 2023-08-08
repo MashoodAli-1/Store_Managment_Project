@@ -203,7 +203,7 @@ export default function StockForm() {
     setItem({
       itemName: "",
       size: "",
-      category: "",
+      category: selectedCatagory,
       price: "",
       quantity: "",
     });
@@ -261,7 +261,12 @@ export default function StockForm() {
             }}
             renderInput={(params) => <TextField {...params} label="Catagory" />}
           /> */}
-          <ComboBox options={data1} enableAutocomplete />
+          <ComboBox
+            options={data1}
+            enableAutocomplete
+            placeholder="Catagory"
+            onSelect={(option) => setSelectedCatagory(option)}
+          />
           <TextField
             sx={{ marginRight: 5, marginTop: 2 }}
             id="outlined-basic"
