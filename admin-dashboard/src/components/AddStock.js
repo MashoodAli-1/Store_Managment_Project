@@ -157,26 +157,31 @@ export default function StockForm() {
   const { header, data } = useSelector((state) => state.stock); // Updated to use "stock" instead of "customer"
   const [searchValue, setSearchValue] = useState("");
   const [item, setItem] = useState({
-    itemName: "", // Updated "name" to "itemName"
+    name: "", // Updated "name" to "itemName"
     size: "",
-    catagory: "", // Updated "catagory" to "category"
+    catagory: selectedCatagory, // Updated "catagory" to "category"
     price: "",
     quantity: "",
   });
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(`catagory = ${item.catagory}`);
     if (!item.action) {
+      console.log(`item = ${item.catagory},${item.itemName} ${item}`);
       dispatch(createItemRecord(item)); // Updated to use createItemRecord from stockSlice
+      setSelectedCatagory("");
       Clear();
     } else if (item.action === "edit") {
       console.log(item);
       dispatch(updateItemRecord(item)); // Updated to use updateItemRecord from stockSlice
+      setSelectedCatagory("");
       dispatch(getAllItemRecord()); // Updated to use getAllItemRecord from stockSlice
       dispatch(getAllItemRecord()); // Updated to use getAllItemRecord from stockSlice
       Clear();
     } else {
       dispatch(deleteItemRecord(item._id)); // Updated to use deleteItemRecord from stockSlice
+      setSelectedCatagory("");
       dispatch(getAllItemRecord()); // Updated to use getAllItemRecord from stockSlice
       dispatch(getAllItemRecord()); // Updated to use getAllItemRecord from stockSlice
       Clear();
@@ -189,7 +194,7 @@ export default function StockForm() {
       setSearchValue(value);
     } else {
       setItem({ ...item, [name]: value }); // Updated to use "item" instead of "customer"
-      setSelectedCatagory(value);
+      // setSelectedCatagory(value);
     }
   };
 
@@ -203,7 +208,7 @@ export default function StockForm() {
     setItem({
       itemName: "",
       size: "",
-      category: selectedCatagory,
+      category: "",
       price: "",
       quantity: "",
     });
@@ -222,8 +227,8 @@ export default function StockForm() {
             label="Item Name"
             variant="outlined"
             size="small"
-            name="itemName" // Updated "name" to "itemName"
-            value={item.itemName} // Updated "name" to "itemName"
+            name="name" // Updated "name" to "itemName"
+            value={item.name} // Updated "name" to "itemName"
             onChange={handleChange}
           />
           <TextField
@@ -261,11 +266,19 @@ export default function StockForm() {
             }}
             renderInput={(params) => <TextField {...params} label="Catagory" />}
           /> */}
+
           <ComboBox
             options={data1}
             enableAutocomplete
             placeholder="Catagory"
-            onSelect={(option) => setSelectedCatagory(option)}
+            name="catagory"
+            onSelect={(option) => {
+              console.log(`option = ${option}`);
+              setItem({
+                ...item,
+                catagory: option,
+              });
+            }}
           />
           <TextField
             sx={{ marginRight: 5, marginTop: 2 }}
