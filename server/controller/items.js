@@ -137,7 +137,7 @@ export const updateItemById = async (req, res) => {
 export const deleteItemById = async (req, res) => {
   try {
     const { id } = req.params;
-    await Item.findByIdAndDelete(id);
+    await Item.findByIdAndDelete({ _id: id });
 
     res.status(200).json({ msg: `Deleted the item with ID:${id}` });
   } catch (error) {

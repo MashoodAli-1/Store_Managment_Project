@@ -39,6 +39,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import CategoryIcon from "@mui/icons-material/Category";
 import Catagory from "../components/Catagory";
 import AddStock from "../components/AddStock";
+import SalesForm from "../components/SalesForm";
 import { useDispatch, useSelector } from "react-redux";
 
 import { setHeader, setData } from "../features/Data/DataSlice";
@@ -272,7 +273,14 @@ function DashboardContent() {
               </ListItemIcon>
               <ListItemText primary="Parties" />
             </ListItemButton>
-            <ListItemButton>
+            <ListItemButton
+              onClick={() => {
+                setRender("Sales");
+                dispatch(getAllCategoryRecord());
+                dispatch(getAllCustomerRecord());
+                dispatch(getAllItemRecord());
+              }}
+            >
               <ListItemIcon>
                 <LocalMallIcon color="primary" />
               </ListItemIcon>
@@ -324,7 +332,9 @@ function DashboardContent() {
               <Grid item xs={12}>
                 {render === "Party" && <Parties />}
               </Grid>
-
+              <Grid item xs={12}>
+                {render === "Sales" && <SalesForm />}
+              </Grid>
               {/* <Grid item xs={12}>
                 <LineCharts count={count} />
               </Grid>

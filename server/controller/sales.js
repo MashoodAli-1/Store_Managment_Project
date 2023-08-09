@@ -87,7 +87,7 @@ export const updateSalesRecordById = async (req, res) => {
 export const deleteSalesRecordById = async (req, res) => {
   try {
     const { id } = req.params;
-    const deletedRecord = await Sales.findByIdAndRemove(id);
+    const deletedRecord = await Sales.findByIdAndRemove({ _id: id });
     if (!deletedRecord) {
       return res.status(404).json({ message: "Record not found" });
     }
