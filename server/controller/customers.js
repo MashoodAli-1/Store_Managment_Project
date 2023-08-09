@@ -75,11 +75,3 @@ export const deleteCustomerById = async (req, res) => {
       .json({ message: "Something went wrong", error: error.message });
   }
 };
-
-// module.exports = {
-//   createCustomer,
-//   getAllCustomers,
-//   getCustomerByName,
-//   updateCustomerByName,
-//   deleteCustomerByName,
-// };
