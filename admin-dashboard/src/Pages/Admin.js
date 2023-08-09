@@ -241,16 +241,7 @@ function DashboardContent() {
             <ListItemButton
               onClick={() => {
                 setRender("AddStock");
-                // dispatch(
-                //   setHeader(["Name", "Catagory", "Quantity", "Price(Rs)"])
-                // );
-                // dispatch(
-                //   setData([
-                //     ["service", "tyre", "10", "300"],
-                //     ["service", "flags", "10", "300"],
-                //     ["service", "tube", "10", "300"],
-                //   ])
-                // );
+                dispatch(getAllCategoryRecord());
                 dispatch(getAllItemRecord());
               }}
             >

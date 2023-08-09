@@ -133,10 +133,6 @@ import {
 export default function StockForm() {
   const data1 = [];
 
-  const dispatch = useDispatch();
-  const [selectedCatagory, setSelectedCatagory] = useState("");
-  const { header, data } = useSelector((state) => state.stock); // Updated to use "stock" instead of "customer"
-  var catagories = useSelector((state) => state.category.data);
   const [searchValue, setSearchValue] = useState("");
   const [item, setItem] = useState({
     name: "",
@@ -152,26 +148,6 @@ export default function StockForm() {
   }
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(`catagory = ${item.catagory}`);
-    if (!item.action) {
-      console.log(`item = ${item.catagory},${item.itemName} ${item}`);
-      dispatch(createItemRecord(item)); // Updated to use createItemRecord from stockSlice
-      setSelectedCatagory("");
-      Clear();
-    } else if (item.action === "edit") {
-      console.log(item);
-      dispatch(updateItemRecord(item)); // Updated to use updateItemRecord from stockSlice
-      setSelectedCatagory("");
-      dispatch(getAllItemRecord()); // Updated to use getAllItemRecord from stockSlice
-      dispatch(getAllItemRecord()); // Updated to use getAllItemRecord from stockSlice
-      Clear();
-    } else {
-      dispatch(deleteItemRecord(item._id)); // Updated to use deleteItemRecord from stockSlice
-      setSelectedCatagory("");
-      dispatch(getAllItemRecord()); // Updated to use getAllItemRecord from stockSlice
-      dispatch(getAllItemRecord()); // Updated to use getAllItemRecord from stockSlice
-      Clear();
-    }
   };
 
   const handleChange = (e) => {
@@ -183,11 +159,11 @@ export default function StockForm() {
     }
   };
 
-  const SearchStock = () => {
-    return data.filter((item) => {
-      return item[1].toLowerCase().includes(searchValue.toLowerCase());
-    });
-  };
+  //   const SearchStock = () => {
+  //     return data.filter((item) => {
+  //       return item[1].toLowerCase().includes(searchValue.toLowerCase());
+  //     });
+  //   };
 
   const Clear = () => {
     setItem({
@@ -206,31 +182,37 @@ export default function StockForm() {
         <Typography variant="h6">Add New Item</Typography>{" "}
         {/* Updated the heading */}
         <form onSubmit={handleSubmit}>
-          <TextField
-            sx={{ marginRight: 5, marginTop: 2 }}
-            id="outlined-basic"
-            label="Item Name"
-            variant="outlined"
-            size="small"
-            name="name" // Updated "name" to "itemName"
-            value={item.name} // Updated "name" to "itemName"
-            onChange={handleChange}
-          />
-          <TextField
-            sx={{ marginRight: 5, marginTop: 2 }}
-            id="outlined-basic"
-            label="Size"
-            variant="outlined"
-            size="small"
-            name="size"
-            value={item.size}
-            onChange={handleChange}
+          <ComboBox
+            options={data1}
+            enableAutocomplete
+            placeholder="Customer Name"
+            name="name"
+            onSelect={(option) => {
+              console.log(`option = ${option}`);
+              setItem({
+                ...item,
+                catagory: option,
+              });
+            }}
           />
           <ComboBox
             options={data1}
             enableAutocomplete
-            placeholder="Catagory"
-            name="catagory"
+            placeholder="Item Name"
+            name="item"
+            onSelect={(option) => {
+              console.log(`option = ${option}`);
+              setItem({
+                ...item,
+                catagory: option,
+              });
+            }}
+          />
+          <ComboBox
+            options={data1}
+            enableAutocomplete
+            placeholder="Item Size"
+            name="size"
             onSelect={(option) => {
               console.log(`option = ${option}`);
               setItem({
@@ -242,10 +224,32 @@ export default function StockForm() {
           <TextField
             sx={{ marginRight: 5, marginTop: 2 }}
             id="outlined-basic"
+            label="Quantity"
+            variant="outlined"
+            size="small"
+            name="quantity" // Updated "name" to "itemName"
+            value={item.name} // Updated "name" to "itemName"
+            onChange={handleChange}
+          />
+          <TextField
+            sx={{ marginRight: 5, marginTop: 2 }}
+            id="outlined-basic"
             label="Price"
             variant="outlined"
             size="small"
             name="price"
+            type="number"
+            value={item.size}
+            onChange={handleChange}
+          />
+
+          <TextField
+            sx={{ marginRight: 5, marginTop: 2 }}
+            id="outlined-basic"
+            label="Received Amount"
+            variant="outlined"
+            size="small"
+            name="recamount"
             type="number"
             value={item.price}
             onChange={handleChange}
@@ -324,13 +328,13 @@ export default function StockForm() {
         </Button>
       </CardContent>
       <Divider sx={{ my: 1 }} />
-      <CardContent sx={{ marginTop: 2 }}>
+      {/* <CardContent sx={{ marginTop: 2 }}>
         <StockTable // Updated to use StockTable
           data={searchValue ? SearchStock() : data} // Updated to use SearchStock
           header={header}
           setItem={setItem} // Updated to use "item" instead of "customer"
         />
-      </CardContent>
+      </CardContent> */}
     </Card>
   );
 }
