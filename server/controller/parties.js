@@ -142,7 +142,7 @@ export const updatePartyById = async (req, res) => {
 export const deletePartyById = async (req, res) => {
   try {
     const { id } = req.params;
-    await Party.findByIdAndDelete(id);
+    await Party.findByIdAndDelete({ _id: id });
     res.status(200).json({ msg: `Deleted the party with ID:${id}` });
   } catch (error) {
     res

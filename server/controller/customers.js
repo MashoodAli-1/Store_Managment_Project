@@ -66,7 +66,7 @@ export const updateCustomerById = async (req, res) => {
 export const deleteCustomerById = async (req, res) => {
   try {
     const { id } = req.params;
-    await Customer.findByIdAndDelete(id);
+    await Customer.findByIdAndDelete({ _id: id });
 
     res.status(200).json({ msg: `Deleted the post with ID:${id}` });
   } catch (error) {

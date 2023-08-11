@@ -131,52 +131,43 @@ import {
 } from "../features/Data/StockSlice"; // Updated to use StockSlice
 
 export default function StockForm() {
-  const top100Films = [
-    { label: "The Shawshank Redemption" },
-    // { label: "The Shawshank Redemption", year: 1994 },
-    // { label: "The Godfather", year: 1972 },
-    // { label: "The Godfather: Part II", year: 1974 },
-    // { label: "The Dark Knight", year: 2008 },
-    // { label: "12 Angry Men", year: 1957 },
-    // { label: "Schindler's List", year: 1993 },
-    // { label: "Pulp Fiction", year: 1994 },
-  ];
+  const data1 = [];
 
-  const data1 = [
-    "America",
-    "India",
-    "Australia",
-    "Argentina",
-    "Ireland",
-    "Indonesia",
-    "Iceland",
-    "Japan",
-  ];
   const dispatch = useDispatch();
   const [selectedCatagory, setSelectedCatagory] = useState("");
   const { header, data } = useSelector((state) => state.stock); // Updated to use "stock" instead of "customer"
+  var catagories = useSelector((state) => state.category.data);
   const [searchValue, setSearchValue] = useState("");
   const [item, setItem] = useState({
-    itemName: "", // Updated "name" to "itemName"
+    name: "",
     size: "",
-    catagory: "", // Updated "catagory" to "category"
+    catagory: selectedCatagory, // Updated "catagory" to "category"
     price: "",
     quantity: "",
   });
-
+  console.log(data1, catagories);
+  for (var catagory1 of catagories) {
+    console.log(catagory1[1]);
+    data1.push(catagory1[1]);
+  }
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(`catagory = ${item.catagory}`);
     if (!item.action) {
+      console.log(`item = ${item.catagory},${item.itemName} ${item}`);
       dispatch(createItemRecord(item)); // Updated to use createItemRecord from stockSlice
+      setSelectedCatagory("");
       Clear();
     } else if (item.action === "edit") {
       console.log(item);
       dispatch(updateItemRecord(item)); // Updated to use updateItemRecord from stockSlice
+      setSelectedCatagory("");
       dispatch(getAllItemRecord()); // Updated to use getAllItemRecord from stockSlice
       dispatch(getAllItemRecord()); // Updated to use getAllItemRecord from stockSlice
       Clear();
     } else {
       dispatch(deleteItemRecord(item._id)); // Updated to use deleteItemRecord from stockSlice
+      setSelectedCatagory("");
       dispatch(getAllItemRecord()); // Updated to use getAllItemRecord from stockSlice
       dispatch(getAllItemRecord()); // Updated to use getAllItemRecord from stockSlice
       Clear();
@@ -189,7 +180,6 @@ export default function StockForm() {
       setSearchValue(value);
     } else {
       setItem({ ...item, [name]: value }); // Updated to use "item" instead of "customer"
-      setSelectedCatagory(value);
     }
   };
 
@@ -203,7 +193,7 @@ export default function StockForm() {
     setItem({
       itemName: "",
       size: "",
-      category: selectedCatagory,
+      category: "",
       price: "",
       quantity: "",
     });
@@ -222,8 +212,8 @@ export default function StockForm() {
             label="Item Name"
             variant="outlined"
             size="small"
-            name="itemName" // Updated "name" to "itemName"
-            value={item.itemName} // Updated "name" to "itemName"
+            name="name" // Updated "name" to "itemName"
+            value={item.name} // Updated "name" to "itemName"
             onChange={handleChange}
           />
           <TextField
@@ -236,36 +226,18 @@ export default function StockForm() {
             value={item.size}
             onChange={handleChange}
           />
-          {/* <TextField
-            sx={{ marginRight: 5, marginTop: 2 }}
-            id="outlined-basic"
-            label="Category"
-            variant="outlined"
-            size="small"
-            name="category" // Updated "catagory" to "category"
-            value={item.category} // Updated "catagory" to "category"
-            onChange={handleChange}
-          /> */}
-          {/* <Autocomplete
-            disablePortal
-            id="combo-box-demo"
-            options={top100Films}
-            size="small"
-            // value={selectedCatagory}
-            // onChange={handleChange}
-            name="catagory"
-            sx={{
-              marginRight: 5,
-              marginTop: 2,
-              width: 195,
-            }}
-            renderInput={(params) => <TextField {...params} label="Catagory" />}
-          /> */}
           <ComboBox
             options={data1}
             enableAutocomplete
             placeholder="Catagory"
-            onSelect={(option) => setSelectedCatagory(option)}
+            name="catagory"
+            onSelect={(option) => {
+              console.log(`option = ${option}`);
+              setItem({
+                ...item,
+                catagory: option,
+              });
+            }}
           />
           <TextField
             sx={{ marginRight: 5, marginTop: 2 }}

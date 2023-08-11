@@ -71,7 +71,7 @@ export const deleteCompanyById = async (req, res) => {
   try {
     const { id } = req.params;
     console.log(id);
-    await Company.findByIdAndDelete(id);
+    await Company.findByIdAndDelete({ _id: id });
     res.status(200).json({ msg: `Deleted the post with ID:${id}` });
   } catch (error) {
     res

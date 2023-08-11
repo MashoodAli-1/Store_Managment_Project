@@ -108,6 +108,7 @@ export default function Catagory() {
       dispatch(getAllCategoryRecord());
       Clear();
     } else {
+      console.log(category);
       dispatch(deleteCategoryRecord(category._id));
       dispatch(getAllCategoryRecord());
       dispatch(getAllCategoryRecord());

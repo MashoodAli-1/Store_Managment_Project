@@ -3,7 +3,7 @@ import * as api from "../../api/ItemApi.js"; // Updated to use ItemApi.js
 
 const initialState = {
   id: "",
-  itemName: "",
+  name: "",
   size: "",
   category: "",
   price: "",
@@ -56,8 +56,8 @@ const stockSlice = createSlice({
         item.name,
         item.size,
         item.catagory, // Assuming the backend returns "catagory" instead of "category"
-        item.price.toString(),
-        item.quantity.toString(),
+        item.price != null ? item.price.toString() : "",
+        item.quantity != null ? item.quantity.toString() : "",
       ]);
       console.log(data + "stock");
       state.data = data;
@@ -68,8 +68,8 @@ const stockSlice = createSlice({
         item.name,
         item.size,
         item.catagory, // Assuming the backend returns "catagory" instead of "category"
-        item.price.toString(),
-        item.quantity.toString(),
+        item.price != null ? item.price.toString() : "",
+        item.quantity != null ? item.quantity.toString() : "",
       ]);
       console.log(data + "stock");
       state.data = data;
@@ -80,8 +80,8 @@ const stockSlice = createSlice({
         item.name,
         item.size,
         item.catagory, // Assuming the backend returns "catagory" instead of "category"
-        item.price.toString(),
-        item.quantity.toString(),
+        item.price != null ? item.price.toString() : "",
+        item.quantity != null ? item.quantity.toString() : "",
       ]);
       state.data = state.data.map((item) =>
         item._id === data._id ? data : item
