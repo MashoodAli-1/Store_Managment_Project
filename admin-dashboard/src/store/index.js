@@ -5,6 +5,7 @@ import customerReducer from "../features/Data/CustomerSlice";
 import catagoryReducer from "../features/Data/CatagorySlice";
 import partySlice from "../features/Data/PartiesSlice";
 import stockReducer from "../features/Data/StockSlice";
+import salesReducer from "../features/Data/SalesSlice";
 const store = configureStore({
   reducer: {
     data: dataReducer,
@@ -13,6 +14,7 @@ const store = configureStore({
     category: catagoryReducer,
     party: partySlice,
     stock: stockReducer,
+    sale: salesReducer,
   },
 });
 
