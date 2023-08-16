@@ -248,13 +248,6 @@ export default function ResourceInfo({ data, header, setCompany }) {
   const [page, setPage] = useState(1);
   const rowsPerPage = 5;
 
-  // useEffect(() => {
-  //   // Adjust the page when data length changes
-  //   setPage((prevPage) =>
-  //     Math.min(prevPage, Math.ceil(data.length / rowsPerPage))
-  //   );
-  // }, [data.length]);
-
   const handleNextPage = () => {
     setPage((prevPage) =>
       Math.min(prevPage + 1, Math.ceil(data.length / rowsPerPage))

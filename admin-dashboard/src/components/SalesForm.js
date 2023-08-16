@@ -12,27 +12,42 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import ComboBox from "react-responsive-combo-box";
+import SalesTable from "./SalesTable";
 import "react-responsive-combo-box/dist/index.css";
 import { useDispatch, useSelector } from "react-redux";
+import { addSales, deleteSales, editSales } from "../features/Data/SalesSlice";
 
 export default function StockForm() {
   const data1 = [];
   const data2 = [];
   const data3 = [];
+  const data = [];
 
   const dispatch = useDispatch();
   const customers = useSelector((state) => state.customer.data);
   const items = useSelector((state) => state.stock.data);
-  const data = [];
-  const header = ["Id", "Item Name", "Size", "price", "Quantity"];
+  const saleItem = useSelector((state) => state.sale.data);
+  const { totalBill, remainingAmount, recievedAmount } = useSelector(
+    (state) => state.sale
+  );
+  const [tableData, setTableData] = useState([]);
+  const header = [
+    "Item Name",
+    "Size",
+    "price",
+    "Quantity",
+    "Rec Amount",
+    "Status",
+  ];
   const [searchValue, setSearchValue] = useState("");
   const [item, setItem] = useState({
-    name: "",
     itemName: "",
     size: "",
     price: "",
     quantity: "",
     recamount: "",
+    status: "",
+    action: "add",
   });
   console.log(customers, items);
   for (var customer of customers) {
@@ -45,14 +60,25 @@ export default function StockForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!item.id) {
-      const temp = item.map((i, id) => [
-        i.itemName,
-        i.size,
-        i.price,
-        i.quantity,
-      ]);
-      data.push(temp);
+    if (item.action === "add") {
+      delete item.action;
+      const dataArray = Object.values(item);
+      console.log(dataArray);
+      data.push(dataArray);
+      dispatch(addSales(data));
+      console.log(`data in form is = ${data}`);
+      setTableData(data);
+      Clear();
+    } else if (item.action === "edit") {
+      delete item.action;
+      const dataArray = Object.values(item);
+      dispatch(editSales(dataArray));
+      Clear();
+    } else if (item.action === "delete") {
+      delete item.action;
+      const dataArray = Object.values(item);
+      dispatch(deleteSales(dataArray));
+      Clear();
     }
   };
 
@@ -75,15 +101,17 @@ export default function StockForm() {
     setItem({
       itemName: "",
       size: "",
-      category: "",
       price: "",
       quantity: "",
+      recamount: "",
+      status: "",
+      action: "add",
     });
     setSearchValue("");
   };
 
   return (
-    <Card sx={{ minWidth: 275, marginTop: 4 }}>
+    <Card sx={{ minWidth: 275, marginTop: 1 }}>
       <CardContent>
         <Typography variant="h6">Add New Item</Typography>
         <form onSubmit={handleSubmit}>
@@ -102,10 +130,10 @@ export default function StockForm() {
               name="name"
               onSelect={(option) => {
                 console.log(`option = ${option}`);
-                setItem({
-                  ...item,
-                  catagory: option,
-                });
+                // setItem({
+                //   ...item,
+                //   name: option,
+                // });
               }}
             />
             <ComboBox
@@ -117,7 +145,7 @@ export default function StockForm() {
                 console.log(`option = ${option}`);
                 setItem({
                   ...item,
-                  catagory: option,
+                  itemName: option,
                 });
               }}
             />
@@ -130,7 +158,7 @@ export default function StockForm() {
                 console.log(`option = ${option}`);
                 setItem({
                   ...item,
-                  catagory: option,
+                  size: option,
                 });
               }}
             />
@@ -141,8 +169,9 @@ export default function StockForm() {
             label="Quantity"
             variant="outlined"
             size="small"
+            type="number"
             name="quantity"
-            value={item.name}
+            value={item.quantity}
             onChange={handleChange}
           />
           <TextField
@@ -153,7 +182,7 @@ export default function StockForm() {
             size="small"
             name="price"
             type="number"
-            value={item.size}
+            value={item.price}
             onChange={handleChange}
           />
 
@@ -165,10 +194,10 @@ export default function StockForm() {
             size="small"
             name="recamount"
             type="number"
-            value={item.size}
+            value={item.recamount}
             onChange={handleChange}
           />
-
+          <br />
           <FormControl>
             <FormLabel id="demo-row-radio-buttons-group-label">
               Status
@@ -257,13 +286,31 @@ export default function StockForm() {
         </Button>
       </CardContent>
       <Divider sx={{ my: 1 }} />
-      {/* <CardContent sx={{ marginTop: 2 }}>
-        <StockTable // Updated to use StockTable
-          data={searchValue ? SearchStock() : data} // Updated to use SearchStock
+      <CardContent sx={{ marginTop: 2 }}>
+        <SalesTable
+          data={saleItem}
           header={header}
           setItem={setItem} // Updated to use "item" instead of "customer"
         />
-      </CardContent> */}
+      </CardContent>
+      <Divider sx={{ my: 2 }} />
+      <CardContent sx={{ marginTop: 2 }}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            gap: "12em",
+          }}
+        >
+          <Typography variant="h5">Total Bill: {totalBill}</Typography>
+          <Typography variant="h5">
+            Received Amount: {recievedAmount}
+          </Typography>
+          <Typography variant="h5">
+            Remaining Amount: {remainingAmount}
+          </Typography>
+        </div>
+      </CardContent>
     </Card>
   );
 }

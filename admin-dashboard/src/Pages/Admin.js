@@ -316,7 +316,7 @@ function DashboardContent() {
         >
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-            <Grid container spacing={3}>
+            <Grid container spacing={0}>
               <Grid item xs={12}>
                 {render === "Companies" && <CompanyForm />}
               </Grid>
