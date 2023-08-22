@@ -8,7 +8,7 @@ const tableSchema = new Schema({
   receivedAmount: Number,
   remainingAmount: Number,
   status: String,
-  date: { type: Date, default: new Date() },
+  // date: { type: Date, default: new Date() },
   createdAt: { type: Date, default: Date.now },
 });
 mongoose.set("strictQuery", true);

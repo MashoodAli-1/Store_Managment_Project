@@ -3,16 +3,17 @@ import Sales from "../models/sales.js"; // Make sure to import your model correc
 // Create a new sales record
 export const createSalesRecord = async (req, res) => {
   try {
-    const {
+    const { cname, data, totalBill, receivedAmount, remainingAmount, status } =
+      req.body;
+
+    console.log({
       cname,
       data,
       totalBill,
       receivedAmount,
       remainingAmount,
       status,
-      date,
-    } = req.body;
-
+    });
     const newRecord = new Sales({
       cname,
       data,
@@ -20,7 +21,6 @@ export const createSalesRecord = async (req, res) => {
       receivedAmount,
       remainingAmount,
       status,
-      date,
     });
 
     const savedRecord = await newRecord.save();

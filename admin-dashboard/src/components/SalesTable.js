@@ -12,7 +12,7 @@ import DeleteSharpIcon from "@mui/icons-material/DeleteSharp";
 
 export default function ResourceInfo({ data, header, setItem }) {
   const [page, setPage] = useState(1);
-  const rowsPerPage = 4;
+  const rowsPerPage = 3;
   console.log(
     `Data in table = ${data.itemName},${data.size},${data.quantity},${data.price},${data.recamount},${data.status}`
   );
@@ -58,8 +58,6 @@ export default function ResourceInfo({ data, header, setItem }) {
                       size: row[1],
                       price: row[2],
                       quantity: row[3],
-                      recamount: row[4],
-                      status: row[5],
                       action: "edit",
                     });
                   }}
@@ -74,8 +72,6 @@ export default function ResourceInfo({ data, header, setItem }) {
                       size: row[1],
                       price: row[2],
                       quantity: row[3],
-                      recamount: row[4],
-                      status: row[5],
                       action: "delete",
                     });
                   }}

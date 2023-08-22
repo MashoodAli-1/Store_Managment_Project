@@ -15,7 +15,13 @@ import ComboBox from "react-responsive-combo-box";
 import SalesTable from "./SalesTable";
 import "react-responsive-combo-box/dist/index.css";
 import { useDispatch, useSelector } from "react-redux";
-import { addSales, deleteSales, editSales } from "../features/Data/SalesSlice";
+import {
+  addSales,
+  deleteSales,
+  editSales,
+  checkOut,
+  createSales,
+} from "../features/Data/SalesSlice";
 
 export default function StockForm() {
   const data1 = [];
@@ -27,27 +33,22 @@ export default function StockForm() {
   const customers = useSelector((state) => state.customer.data);
   const items = useSelector((state) => state.stock.data);
   const saleItem = useSelector((state) => state.sale.data);
-  const { totalBill, remainingAmount, recievedAmount } = useSelector(
-    (state) => state.sale
-  );
+  const { totalBill } = useSelector((state) => state.sale);
   const [tableData, setTableData] = useState([]);
-  const header = [
-    "Item Name",
-    "Size",
-    "price",
-    "Quantity",
-    "Rec Amount",
-    "Status",
-  ];
+  const header = ["Item Name", "Size", "price", "Quantity"];
   const [searchValue, setSearchValue] = useState("");
   const [item, setItem] = useState({
     itemName: "",
     size: "",
     price: "",
     quantity: "",
-    recamount: "",
-    status: "",
     action: "add",
+  });
+  const [customerDetail, setCustomerDetails] = useState({
+    name: "",
+    recamount: 0,
+    remainingAmount: 0,
+    status: "",
   });
   console.log(customers, items);
   for (var customer of customers) {
@@ -88,6 +89,7 @@ export default function StockForm() {
       setSearchValue(value);
     } else {
       setItem({ ...item, [name]: value });
+      setCustomerDetails({ ...customerDetail, [name]: value });
     }
   };
 
@@ -103,8 +105,6 @@ export default function StockForm() {
       size: "",
       price: "",
       quantity: "",
-      recamount: "",
-      status: "",
       action: "add",
     });
     setSearchValue("");
@@ -130,10 +130,10 @@ export default function StockForm() {
               name="name"
               onSelect={(option) => {
                 console.log(`option = ${option}`);
-                // setItem({
-                //   ...item,
-                //   name: option,
-                // });
+                setCustomerDetails({
+                  ...customerDetail,
+                  name: option,
+                });
               }}
             />
             <ComboBox
@@ -185,44 +185,7 @@ export default function StockForm() {
             value={item.price}
             onChange={handleChange}
           />
-
-          <TextField
-            sx={{ marginRight: 5, marginTop: 2 }}
-            id="outlined-basic"
-            label="Received Amount"
-            variant="outlined"
-            size="small"
-            name="recamount"
-            type="number"
-            value={item.recamount}
-            onChange={handleChange}
-          />
           <br />
-          <FormControl>
-            <FormLabel id="demo-row-radio-buttons-group-label">
-              Status
-            </FormLabel>
-            <RadioGroup
-              row
-              aria-labelledby="demo-row-radio-buttons-group-label"
-              name="row-radio-buttons-group"
-            >
-              <FormControlLabel
-                value="cash"
-                name="status"
-                control={<Radio />}
-                onChange={handleChange}
-                label="on cash"
-              />
-              <FormControlLabel
-                value="account"
-                name="status"
-                control={<Radio />}
-                onChange={handleChange}
-                label="on account"
-              />
-            </RadioGroup>
-          </FormControl>
           <Button
             type="submit"
             variant="contained"
@@ -230,6 +193,7 @@ export default function StockForm() {
           >
             Add
           </Button>
+          <br />
           {item.action === "edit" && (
             <>
               <Button
@@ -271,27 +235,10 @@ export default function StockForm() {
             </>
           )}
         </form>
-        <TextField
-          sx={{ marginRight: 5, marginTop: 2 }}
-          id="outlined-basic"
-          label="Search"
-          variant="outlined"
-          size="small"
-          name="search"
-          value={searchValue}
-          onChange={handleChange}
-        />
-        <Button variant="contained" sx={{ marginRight: 5, marginTop: 2 }}>
-          Search
-        </Button>
       </CardContent>
       <Divider sx={{ my: 1 }} />
       <CardContent sx={{ marginTop: 2 }}>
-        <SalesTable
-          data={saleItem}
-          header={header}
-          setItem={setItem} // Updated to use "item" instead of "customer"
-        />
+        <SalesTable data={saleItem} header={header} setItem={setItem} />
       </CardContent>
       <Divider sx={{ my: 2 }} />
       <CardContent sx={{ marginTop: 2 }}>
@@ -299,17 +246,66 @@ export default function StockForm() {
           style={{
             display: "flex",
             flexDirection: "row",
-            gap: "12em",
+            justifyContent: "end",
           }}
         >
-          <Typography variant="h5">Total Bill: {totalBill}</Typography>
           <Typography variant="h5">
-            Received Amount: {recievedAmount}
-          </Typography>
-          <Typography variant="h5">
-            Remaining Amount: {remainingAmount}
+            Total Bill: {totalBill ? totalBill : 0}
           </Typography>
         </div>
+        <Divider sx={{ my: 2 }} />
+        <FormControl>
+          <FormLabel id="demo-row-radio-buttons-group-label">Status</FormLabel>
+          <RadioGroup
+            row
+            aria-labelledby="demo-row-radio-buttons-group-label"
+            name="row-radio-buttons-group"
+          >
+            <FormControlLabel
+              value="cash"
+              name="status"
+              control={<Radio />}
+              onChange={handleChange}
+              label="on cash"
+            />
+            <FormControlLabel
+              value="account"
+              name="status"
+              control={<Radio />}
+              onChange={handleChange}
+              label="on account"
+            />
+          </RadioGroup>
+        </FormControl>
+        <TextField
+          sx={{ marginRight: 5, marginTop: 2 }}
+          id="outlined-basic"
+          label="Received Amount"
+          variant="outlined"
+          size="small"
+          name="recamount"
+          type="number"
+          value={customerDetail.recamount}
+          onChange={handleChange}
+        />
+        <Button
+          variant="contained"
+          sx={{ marginRight: 5, marginTop: 2 }}
+          onClick={() => {
+            var remaining = totalBill - customerDetail.recamount;
+            setCustomerDetails({
+              ...customerDetail,
+              remainingAmount: remaining,
+            });
+            console.log(`customer = ${customerDetail.recamount}`);
+            dispatch(checkOut(customerDetail));
+            if (customerDetail.remainingAmount !== 0) {
+              dispatch(createSales());
+            }
+          }}
+        >
+          Checkout
+        </Button>
       </CardContent>
     </Card>
   );

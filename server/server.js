@@ -11,6 +11,7 @@ import customerRoutes from "./routes/customers.js";
 import catagoryRoutes from "./routes/itemCatagory.js";
 import itemRoutes from "./routes/items.js";
 import partyRoutes from "./routes/parties.js";
+import salessRoutes from "./routes/sales.js";
 // dotenv.config();
 //! port
 const port = 4001;
@@ -27,6 +28,7 @@ app.use("/customer", customerRoutes);
 app.use("/catagory", catagoryRoutes);
 app.use("/item", itemRoutes);
 app.use("/party", partyRoutes);
+app.use("/sale", salessRoutes);
 await connect();
 app.listen(port, () => {
   console.log(`server is listening on http://localhost:${port}`);
