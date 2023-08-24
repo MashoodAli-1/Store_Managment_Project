@@ -4,8 +4,8 @@ const { Schema } = mongoose;
 const tableSchema = new Schema({
   cname: String,
   data: [[String]],
-  receivedAmount: Number,   // receive till now (sum of receive amount)
-  receiveAmount: Number,  // receive today
+  receivedTillNow: Number, // receive till now (sum of receive amount)
+  receiveToday: Number, // receive today
   remainingAmount: Number,
   date: { type: Date, default: new Date() },
   createdAt: { type: Date, default: Date.now },
