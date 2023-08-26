@@ -12,6 +12,7 @@ import catagoryRoutes from "./routes/itemCatagory.js";
 import itemRoutes from "./routes/items.js";
 import partyRoutes from "./routes/parties.js";
 import salessRoutes from "./routes/sales.js";
+import accRecRoutes from "./routes/accReceivabe.js";
 // dotenv.config();
 //! port
 const port = 4001;
@@ -29,6 +30,7 @@ app.use("/catagory", catagoryRoutes);
 app.use("/item", itemRoutes);
 app.use("/party", partyRoutes);
 app.use("/sale", salessRoutes);
+app.use("/accRec", salessRoutes);
 await connect();
 app.listen(port, () => {
   console.log(`server is listening on http://localhost:${port}`);
