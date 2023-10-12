@@ -39,6 +39,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import CategoryIcon from "@mui/icons-material/Category";
 import Catagory from "../components/Catagory";
 import AddStock from "../components/AddStock";
+import AccReceivable from "../components/AccReceivable";
 import SalesForm from "../components/SalesForm";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -241,6 +242,17 @@ function DashboardContent() {
             </ListItemButton>
             <ListItemButton
               onClick={() => {
+                setRender("AccReceivable");
+                dispatch(getAllCustomerRecord());
+              }}
+            >
+              <ListItemIcon>
+                <PersonIcon color="primary" />
+              </ListItemIcon>
+              <ListItemText primary="AccReceivable" />
+            </ListItemButton>
+            <ListItemButton
+              onClick={() => {
                 setRender("AddStock");
                 dispatch(getAllCategoryRecord());
                 dispatch(getAllItemRecord());
@@ -334,6 +346,9 @@ function DashboardContent() {
               </Grid>
               <Grid item xs={12}>
                 {render === "Sales" && <SalesForm />}
+              </Grid>
+              <Grid item xs={12}>
+                {render === "AccReceivable" && <AccReceivable />}
               </Grid>
               {/* <Grid item xs={12}>
                 <LineCharts count={count} />
