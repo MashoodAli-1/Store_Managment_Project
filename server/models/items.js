@@ -1,12 +1,32 @@
-import mongoose from "mongoose";
-const { Schema } = mongoose;
+import { Sequelize, DataTypes } from "sequelize";
 
-const tableSchema = new Schema({
-  name: String,
-  size: Number,
-  catagory: String,
-  price: Number,
-  quantity: Number,
+import sequelize from "../database/db.js";
+const Item = sequelize.define("Item", {
+  name: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  size: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  category: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  price: {
+    type: DataTypes.FLOAT,
+    allowNull: false,
+  },
+  quantity: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
 });
-mongoose.set("strictQuery", true);
-export default new mongoose.model("items", tableSchema);
+
+// Optionally, you can synchronize the table to the database using:
+// Item.sync();
+
+// You can also define any associations or additional configurations here.
+
+export default Item;

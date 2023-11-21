@@ -1,15 +1,42 @@
-import mongoose from "mongoose";
-const { Schema } = mongoose;
+import { Sequelize, DataTypes } from "sequelize";
 
-const tableSchema = new Schema({
-  cname: String,
-  data: [[String]],
-  totalBill: Number,
-  receivedAmount: Number,
-  remainingAmount: Number,
-  status: String,
-  // date: { type: Date, default: new Date() },
-  createdAt: { type: Date, default: Date.now },
+import sequelize from "../database/db.js";
+
+const Sale = sequelize.define("Sale", {
+  cname: {
+    type: DataTypes.STRING,
+    allowNull: true, // Adjust this based on your requirements
+  },
+  data: {
+    type: DataTypes.JSON, // JSON data type can store arrays of strings
+    allowNull: true, // Adjust this based on your requirements
+  },
+  totalBill: {
+    type: DataTypes.FLOAT,
+    allowNull: false,
+  },
+  receivedAmount: {
+    type: DataTypes.FLOAT,
+    allowNull: false,
+  },
+  remainingAmount: {
+    type: DataTypes.FLOAT,
+    allowNull: false,
+  },
+  status: {
+    type: DataTypes.STRING,
+    allowNull: true, // Adjust this based on your requirements
+  },
+  createdAt: {
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW,
+    allowNull: false,
+  },
 });
-mongoose.set("strictQuery", true);
-export default new mongoose.model("sales", tableSchema);
+
+// Optionally, you can synchronize the table to the database using:
+// Sale.sync();
+
+// You can also define any associations or additional configurations here.
+
+export default Sale;

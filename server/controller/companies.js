@@ -1,81 +1,66 @@
 import Company from "../models/companies.js";
-
-// Create a new company
+// const { Company } = require("../models/companies.js");
 export const createCompany = async (req, res) => {
   try {
-    // const { name, phone, address } = req.body;
-    const company = req.body;
-    const newCompany = new Company(company);
-    await newCompany.save();
+    const { name, phone, address } = req.body;
+    const newCompany = await Company.create({
+      name,
+      phone,
+      address,
+    });
 
-    const companies = await Company.find({});
-
+    const companies = await Company.findAll();
     res.status(201).json(companies);
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Something went wrong", error: error.message });
+    console.error("Error creating company:", error);
+    res.status(500).json({ message: "Failed to create a new company" });
   }
 };
 
-// Get all companies
 export const getAllCompanies = async (req, res) => {
   try {
-    const companies = await Company.find({});
+    const companies = await Company.findAll();
     res.status(200).json(companies);
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Something went wrong", error: error.message });
+    console.error("Error fetching companies:", error);
+    res.status(500).json({ message: "Failed to fetch companies" });
   }
 };
 
-// Get a specific company by name donot need this api
-export const getCompanyByName = async (req, res) => {
-  try {
-    const { cname } = req.body;
-    const company = await Company.findOne({ cname });
-    if (!company) {
-      return res.status(404).json({ message: "Company not found" });
-    }
-    res.status(200).json(company);
-  } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Something went wrong", error: error.message });
-  }
-};
-
-// Update a company by name
 export const updateCompanyById = async (req, res) => {
   try {
-    const { _id, name, phone, address } = req.body;
-    const updatedCompany = await Company.findOneAndUpdate(
-      { _id },
-      { name, phone, address },
-      { new: true }
-    );
+    const { id, name, phone, address } = req.body;
+    const updatedCompany = await Company.findByPk(id);
+
     if (!updatedCompany) {
       return res.status(404).json({ message: "Company not found" });
     }
+
+    updatedCompany.name = name;
+    updatedCompany.phone = phone;
+    updatedCompany.address = address;
+
+    await updatedCompany.save();
     res.status(200).json(updatedCompany);
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Something went wrong", error: error.message });
+    console.error("Error updating company:", error);
+    res.status(500).json({ message: "Failed to update the company" });
   }
 };
 
-// Delete a company by name
 export const deleteCompanyById = async (req, res) => {
   try {
     const { id } = req.params;
-    console.log(id);
-    await Company.findByIdAndDelete({ _id: id });
-    res.status(200).json({ msg: `Deleted the post with ID:${id}` });
+    const companyToDelete = await Company.findByPk(id);
+
+    if (!companyToDelete) {
+      return res.status(404).json({ message: "Company not found" });
+    }
+
+    await companyToDelete.destroy();
+    res.status(200).json({ message: `Deleted the company with ID: ${id}` });
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Something went wrong", error: error.message });
+    console.error("Error deleting company:", error);
+    res.status(500).json({ message: "Failed to delete the company" });
   }
 };

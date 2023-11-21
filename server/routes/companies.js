@@ -2,7 +2,7 @@ import express from "express";
 import {
   createCompany,
   getAllCompanies,
-  getCompanyByName,
+  // getCompanyByName,
   updateCompanyById,
   deleteCompanyById,
 } from "../controller/companies.js";
@@ -12,7 +12,7 @@ const router = express.Router();
 router
   .post("/", createCompany)
   .get("/all", getAllCompanies)
-  .get("/one", getCompanyByName)
+  // .get("/one", getCompanyByName)
   .patch("/update", updateCompanyById)
   .delete("/:id", deleteCompanyById);
 

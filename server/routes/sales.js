@@ -17,3 +17,4 @@ router
   .delete("/:id", deleteSalesRecordById); // Delete a sales record by id
 
 export default router;
+ 

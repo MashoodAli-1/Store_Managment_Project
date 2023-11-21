@@ -173,9 +173,6 @@ export default function CustomerForm() {
           value={searchValue}
           onChange={handleChange}
         />
-        <Button variant="contained" sx={{ marginRight: 5, marginTop: 2 }}>
-          Search
-        </Button>
       </CardContent>
       <Divider sx={{ my: 1 }} />
       <CardContent sx={{ marginTop: 2 }}>

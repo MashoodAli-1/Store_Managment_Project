@@ -3,7 +3,7 @@ const router = express.Router();
 import {
   createCustomer,
   getAllCustomers,
-  getCustomerByName,
+  // getCustomerByName,
   updateCustomerById,
   deleteCustomerById,
 } from "../controller/customers.js";
@@ -16,7 +16,7 @@ router
   .get("/all", getAllCustomers)
 
   // Get a specific customer by name
-  .get("/one", getCustomerByName)
+  // .get("/one", getCustomerByName)
 
   // Update a customer by name
   .patch("/update", updateCustomerById)

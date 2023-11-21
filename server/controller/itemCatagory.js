@@ -1,12 +1,16 @@
 import Category from "../models/itemCatagory.js";
+// const { Category } = require("../models/itemCatagory.js");
 
 export const createCategory = async (req, res) => {
   try {
-    const category = req.body;
-    const newCategory = new Category(category);
-    await newCategory.save();
-    const allCategories = await Category.find({});
-    res.status(201).json(allCategories);
+    const { name } = req.body;
+    const newCategory = await Category.create({
+      name,
+    });
+
+    const categories = await Category.findAll();
+
+    res.status(201).json(categories);
   } catch (error) {
     res
       .status(500)
@@ -16,7 +20,7 @@ export const createCategory = async (req, res) => {
 
 export const getAllCategories = async (req, res) => {
   try {
-    const categories = await Category.find({});
+    const categories = await Category.findAll();
     res.status(200).json(categories);
   } catch (error) {
     res
@@ -42,15 +46,16 @@ export const getCategoryByName = async (req, res) => {
 
 export const updateCategoryById = async (req, res) => {
   try {
-    const { _id, name } = req.body;
-    const updatedCategory = await Category.findOneAndUpdate(
-      { _id },
-      { name },
-      { new: true }
-    );
+    const { id, name } = req.body;
+    const updatedCategory = await Category.findByPk(id);
     if (!updatedCategory) {
       return res.status(404).json({ message: "Category not found" });
     }
+
+    updatedCategory.name = name;
+
+    await updatedCategory.save();
+
     res.status(200).json(updatedCategory);
   } catch (error) {
     res
@@ -62,9 +67,8 @@ export const updateCategoryById = async (req, res) => {
 export const deleteCategoryById = async (req, res) => {
   try {
     const { id } = req.params;
-    const cat = await Category.findOneAndDelete({ _id: id });
-    console.log(id, cat);
-    res.status(200).json({ msg: `Deleted the category: ${id}` });
+    await Category.destroy({ where: { id } });
+    res.status(200).json({ msg: `Deleted the category with ID: ${id}` });
   } catch (error) {
     res
       .status(500)

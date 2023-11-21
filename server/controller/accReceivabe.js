@@ -1,39 +1,35 @@
-import accReceivable from "../models/accReceivabe.js";
+// const { AccReceivable } = require("../models/accReceivabe.js"); // Assuming you have a model defined for AccReceivable
 
-// Create a new account receivable record
+import AccReceivable from "../models/accReceivabe.js";
+
 export const createAccountReceivable = async (req, res) => {
   try {
     const { data, receivedTillNow, receiveToday, remainingAmount } = req.body;
-
-    const newRecord = new accReceivable({
+    const newRecord = await AccReceivable.create({
       data,
       receivedTillNow,
       receiveToday,
       remainingAmount,
     });
-
-    const savedRecord = await newRecord.save();
-    res.status(201).json(savedRecord);
+    res.status(201).json(newRecord);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
-// Get all account receivable records
 export const getAllAccountReceivables = async (req, res) => {
   try {
-    const allRecords = await accReceivable.find();
+    const allRecords = await AccReceivable.findAll();
     res.status(200).json(allRecords);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
-// Get a specific account receivable record by _id
 export const getAccountReceivableById = async (req, res) => {
   try {
     const { id } = req.params;
-    const record = await accReceivable.findById(id);
+    const record = await AccReceivable.findByPk(id);
     if (!record) {
       return res.status(404).json({ message: "Record not found" });
     }
@@ -43,41 +39,39 @@ export const getAccountReceivableById = async (req, res) => {
   }
 };
 
-// Update an account receivable record by _id
 export const updateAccountReceivableById = async (req, res) => {
   try {
     const { data, receivedTillNow, receiveToday, remainingAmount } = req.body;
-
     const { id } = req.params;
-    const updatedRecord = await accReceivable.findByIdAndUpdate(
-      id,
+    const [affectedRows] = await AccReceivable.update(
       {
         data,
         receivedTillNow,
         receiveToday,
         remainingAmount,
       },
-      { new: true }
+      { where: { id } }
     );
 
-    if (!updatedRecord) {
+    if (affectedRows === 0) {
       return res.status(404).json({ message: "Record not found" });
     }
 
+    const updatedRecord = await AccReceivable.findByPk(id);
     res.status(200).json(updatedRecord);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
-// Delete an account receivable record by _id
 export const deleteAccountReceivableById = async (req, res) => {
   try {
     const { id } = req.params;
-    const deletedRecord = await accReceivable.findByIdAndDelete(id);
+    const deletedRecord = await AccReceivable.findByPk(id);
     if (!deletedRecord) {
       return res.status(404).json({ message: "Record not found" });
     }
+    await AccReceivable.destroy({ where: { id } });
     res.status(200).json(deletedRecord);
   } catch (error) {
     res.status(500).json({ error: error.message });

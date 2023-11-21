@@ -1,6 +1,7 @@
-import Sales from "../models/sales.js"; // Make sure to import your model correctly
+// const { Sales } = require("../models/sales.js"); // Assuming you have a model defined for Sales
 
-// Create a new sales record
+import Sales from "../models/sales.js";
+
 export const createSalesRecord = async (req, res) => {
   try {
     const { cname, data, totalBill, receivedAmount, remainingAmount, status } =
@@ -14,7 +15,8 @@ export const createSalesRecord = async (req, res) => {
       remainingAmount,
       status,
     });
-    const newRecord = new Sales({
+
+    const newRecord = await Sales.create({
       cname,
       data,
       totalBill,
@@ -23,28 +25,25 @@ export const createSalesRecord = async (req, res) => {
       status,
     });
 
-    const savedRecord = await newRecord.save();
-    res.status(201).json(savedRecord);
+    res.status(201).json(newRecord);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
-// Get all sales records
 export const getAllSalesRecords = async (req, res) => {
   try {
-    const allRecords = await Sales.find();
+    const allRecords = await Sales.findAll();
     res.status(200).json(allRecords);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
-// Get a specific sales record by cname
 export const getSalesRecordByName = async (req, res) => {
   try {
     const { cname } = req.body;
-    const record = await Sales.findOne({ cname });
+    const record = await Sales.findOne({ where: { cname } });
     if (!record) {
       return res.status(404).json({ message: "Record not found" });
     }
@@ -54,14 +53,12 @@ export const getSalesRecordByName = async (req, res) => {
   }
 };
 
-// Update a sales record by id
 export const updateSalesRecordById = async (req, res) => {
   try {
     const { data, totalBill, receivedAmount, remainingAmount, status, date } =
       req.body;
 
-    const updatedRecord = await Sales.findByIdAndUpdate(
-      req.params.id,
+    const [rowsUpdated, updatedRecords] = await Sales.update(
       {
         data,
         totalBill,
@@ -70,27 +67,31 @@ export const updateSalesRecordById = async (req, res) => {
         status,
         date,
       },
-      { new: true }
+      {
+        where: { id: req.params.id },
+        returning: true,
+      }
     );
 
-    if (!updatedRecord) {
+    if (rowsUpdated === 0 || !updatedRecords[1]) {
       return res.status(404).json({ message: "Record not found" });
     }
 
-    res.status(200).json(updatedRecord);
+    res.status(200).json(updatedRecords[1][0]);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
-// Delete a sales record by id
 export const deleteSalesRecordById = async (req, res) => {
   try {
     const { id } = req.params;
-    const deletedRecord = await Sales.findByIdAndRemove({ _id: id });
+    const deletedRecord = await Sales.destroy({ where: { id } });
+
     if (!deletedRecord) {
       return res.status(404).json({ message: "Record not found" });
     }
+
     res.status(200).json(deletedRecord);
   } catch (error) {
     res.status(500).json({ error: error.message });

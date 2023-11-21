@@ -77,20 +77,30 @@ export default function CustomerForm() {
           <TextField
             sx={{ marginRight: 5, marginTop: 2 }}
             id="outlined-basic"
-            label="Name"
+            label="Customer Name"
             variant="outlined"
             size="small"
-            name="name"
+            name="CustomerName"
             value={customer.name}
             onChange={handleChange}
           />
           <TextField
             sx={{ marginRight: 5, marginTop: 2 }}
             id="outlined-basic"
-            label="Items:Items_size"
+            label="Items Data"
             variant="outlined"
             size="small"
-            name="phone"
+            name="ItemsData"
+            value={customer.name}
+            onChange={handleChange}
+          />
+          <TextField
+            sx={{ marginRight: 5, marginTop: 2 }}
+            id="outlined-basic"
+            label="Received Amount"
+            variant="outlined"
+            size="small"
+            name="ReceivedAmount"
             type="number"
             value={customer.phone}
             onChange={handleChange}
@@ -98,23 +108,14 @@ export default function CustomerForm() {
           <TextField
             sx={{ marginRight: 5, marginTop: 2 }}
             id="outlined-basic"
-            label="Address"
+            label="Current Receive"
             variant="outlined"
             size="small"
-            name="address"
+            name="CurrentReceive"
             value={customer.address}
             onChange={handleChange}
           />
-          <TextField
-            sx={{ marginRight: 5, marginTop: 2 }}
-            id="outlined-basic"
-            label="Cnic"
-            variant="outlined"
-            size="small"
-            name="cnic"
-            value={customer.cnic}
-            onChange={handleChange}
-          />
+
           <Button
             type="submit"
             variant="contained"
@@ -173,9 +174,6 @@ export default function CustomerForm() {
           value={searchValue}
           onChange={handleChange}
         />
-        <Button variant="contained" sx={{ marginRight: 5, marginTop: 2 }}>
-          Search
-        </Button>
       </CardContent>
       <Divider sx={{ my: 1 }} />
       <CardContent sx={{ marginTop: 2 }}>

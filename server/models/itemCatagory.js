@@ -1,8 +1,17 @@
-import mongoose from "mongoose";
-const { Schema } = mongoose;
+import { Sequelize, DataTypes } from "sequelize";
 
-const tableSchema = new Schema({
-  name: String,
+import sequelize from "../database/db.js";
+
+const Category = sequelize.define("Category", {
+  name: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
 });
-mongoose.set("strictQuery", true);
-export default new mongoose.model("catagories", tableSchema);
+
+// Optionally, you can synchronize the table to the database using:
+// Category.sync();
+
+// You can also define any associations or additional configurations here.
+
+export default Category;

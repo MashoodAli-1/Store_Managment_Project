@@ -13,3 +13,4 @@ export const deleteCustomer = (id) => {
   console.log(`api delete ${id}`);
   return axios.delete(`${url}/customer/${id}`);
 };
+ 

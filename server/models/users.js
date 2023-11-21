@@ -1,10 +1,21 @@
-import mongoose from "mongoose";
-const { Schema } = mongoose;
+import { Sequelize, DataTypes } from "sequelize";
 
-const tableSchema = new Schema({
-  name: String,
-  email: String,
-  password: String,
+import sequelize from "../database/db.js";
+
+const User = sequelize.define("User", {
+  name: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  email: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true, // Ensure email is unique
+  },
+  password: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
 });
-mongoose.set("strictQuery", true);
-export default new mongoose.model("users", tableSchema);
+
+export default User;

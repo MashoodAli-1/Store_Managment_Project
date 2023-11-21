@@ -1,11 +1,27 @@
-import mongoose from "mongoose";
-const { Schema } = mongoose;
+import { Sequelize, DataTypes } from "sequelize";
 
-const tableSchema = new Schema({
-  name: String,
-  phone: Number,
-  address: String,
-  cnic: String,
+import sequelize from "../database/db.js";
+const Party = sequelize.define("Party", {
+  name: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  phone: {
+    type: DataTypes.INTEGER,
+    allowNull: true, // Adjust this based on your requirements
+  },
+  address: {
+    type: DataTypes.STRING,
+    allowNull: true, // Adjust this based on your requirements
+  },
+  cnic: {
+    type: DataTypes.STRING,
+    allowNull: true, // Adjust this based on your requirements
+  },
 });
-mongoose.set("strictQuery", true);
-export default new mongoose.model("parties", tableSchema);
+
+// Optionally, you can synchronize the table to the database using:
+// Party.sync();
+
+// You can also define any associations or additional configurations here.
+export default Party;
