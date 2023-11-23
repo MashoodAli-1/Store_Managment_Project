@@ -98,7 +98,7 @@
 //                   color="primary"
 //                   onClick={() => {
 //                     setCompany({
-//                       _id: row[0],
+//                       id: row[0],
 //                       name: row[1],
 //                       phone: row[2],
 //                       address: row[3],
@@ -112,7 +112,7 @@
 //                   color="warning"
 //                   onClick={() => {
 //                     setCompany({
-//                       _id: row[0],
+//                       id: row[0],
 //                       name: row[1],
 //                       phone: row[2],
 //                       address: row[3],
@@ -191,7 +191,7 @@
 //                   color="primary"
 //                   onClick={() => {
 //                     setCompany({
-//                       _id: row[0],
+//                       id: row[0],
 //                       name: row[1],
 //                       phone: row[2],
 //                       address: row[3],
@@ -205,7 +205,7 @@
 //                   color="warning"
 //                   onClick={() => {
 //                     setCompany({
-//                       _id: row[0],
+//                       id: row[0],
 //                       name: row[1],
 //                       phone: row[2],
 //                       address: row[3],
@@ -285,7 +285,7 @@ export default function ResourceInfo({ data, header, setCompany }) {
                   color="primary"
                   onClick={() => {
                     setCompany({
-                      _id: row[0],
+                      id: row[0],
                       name: row[1],
                       phone: row[2],
                       address: row[3],
@@ -299,7 +299,7 @@ export default function ResourceInfo({ data, header, setCompany }) {
                   color="warning"
                   onClick={() => {
                     setCompany({
-                      _id: row[0],
+                      id: row[0],
                       name: row[1],
                       phone: row[2],
                       address: row[3],

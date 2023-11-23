@@ -35,7 +35,7 @@
 //       dispatch(getAllCategoryRecord());
 //       Clear();
 //     } else {
-//       dispatch(deleteCategoryRecord(category._id)); // Updated to use the deleteCategoryRecord function.
+//       dispatch(deleteCategoryRecord(category.id)); // Updated to use the deleteCategoryRecord function.
 //       dispatch(getAllCategoryRecord()); // Updated to use the getAllCategoryRecord function.
 //       dispatch(getAllCategoryRecord());
 //       Clear();
@@ -109,7 +109,7 @@ export default function Catagory() {
       Clear();
     } else {
       console.log(category);
-      dispatch(deleteCategoryRecord(category._id));
+      dispatch(deleteCategoryRecord(category.id));
       dispatch(getAllCategoryRecord());
       dispatch(getAllCategoryRecord());
       Clear();

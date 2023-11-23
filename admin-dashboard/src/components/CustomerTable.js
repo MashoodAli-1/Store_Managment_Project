@@ -58,7 +58,7 @@ export default function CutomerTable({ data, header, setCustomer }) {
                   color="primary"
                   onClick={() => {
                     setCustomer({
-                      _id: row[0],
+                      id: row[0],
                       name: row[1],
                       address: row[3],
                       phone: row[2],
@@ -73,7 +73,7 @@ export default function CutomerTable({ data, header, setCustomer }) {
                   color="warning"
                   onClick={() => {
                     setCustomer({
-                      _id: row[0],
+                      id: row[0],
                       name: row[1],
                       phone: row[2],
                       address: row[3],

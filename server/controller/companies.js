@@ -8,9 +8,9 @@ export const createCompany = async (req, res) => {
       phone,
       address,
     });
-
     const companies = await Company.findAll();
     res.status(201).json(companies);
+    console.log(companies);
   } catch (error) {
     console.error("Error creating company:", error);
     res.status(500).json({ message: "Failed to create a new company" });

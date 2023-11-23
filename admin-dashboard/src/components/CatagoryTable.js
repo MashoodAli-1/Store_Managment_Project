@@ -58,7 +58,7 @@ export default function CutomerTable({ data, header, setCategory }) {
                   color="primary"
                   onClick={() => {
                     setCategory({
-                      _id: row[0],
+                      id: row[0],
                       name: row[1],
                       action: "edit",
                     });
@@ -70,7 +70,7 @@ export default function CutomerTable({ data, header, setCategory }) {
                   color="warning"
                   onClick={() => {
                     setCategory({
-                      _id: row[0],
+                      id: row[0],
                       name: row[1],
                       action: "delete",
                     });

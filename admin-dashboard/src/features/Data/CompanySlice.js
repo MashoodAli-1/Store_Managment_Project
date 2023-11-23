@@ -36,10 +36,10 @@ export const updateCompanyRecord = createAsyncThunk(
 
 export const deleteCompanyRecord = createAsyncThunk(
   "company/deleteCompanyRecord",
-  async (_id) => {
-    console.log(`slice delete ${_id}`);
-    await api.deleteCompany(_id);
-    return _id;
+  async (id) => {
+    console.log(`slice delete ${id}`);
+    await api.deleteCompany(id);
+    return id;
   }
 );
 
@@ -50,7 +50,7 @@ const companySlice = createSlice({
   extraReducers: {
     [createCompanyRecord.fulfilled]: (state, { payload }) => {
       var data = payload.map((item) => [
-        item._id,
+        item.id,
         item.name,
         item.phone.toString(),
         item.address,
@@ -60,7 +60,7 @@ const companySlice = createSlice({
     },
     [getAllCompanyRecord.fulfilled]: (state, { payload }) => {
       var data = payload.map((item) => [
-        item._id,
+        item.id,
         item.name,
         item.phone.toString(),
         item.address,
@@ -70,18 +70,18 @@ const companySlice = createSlice({
     },
     [updateCompanyRecord]: (state, { payload }) => {
       var data = payload.map((item) => [
-        item._id,
+        item.id,
         item.name,
         item.phone.toString(),
         item.address,
       ]);
       state.data = state.data.map((item) =>
-        item._id === data._id ? data : item
+        item.id === data.id ? data : item
       );
       console.log(`data changed ${state.data}`);
     },
     [deleteCompanyRecord]: (state, { payload }) => {
-      state.data = state.data.filter((item) => item._id !== payload);
+      state.data = state.data.filter((item) => item.id !== payload);
       console.log(`data changed ${state.data}`);
     },
   },

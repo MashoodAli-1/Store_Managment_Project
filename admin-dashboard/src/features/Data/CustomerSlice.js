@@ -37,10 +37,10 @@ export const updateCustomerRecord = createAsyncThunk(
 
 export const deleteCustomerRecord = createAsyncThunk(
   "customer/deleteCustomerRecord",
-  async (_id) => {
-    console.log(`slice delete ${_id}`);
-    await api.deleteCustomer(_id);
-    return _id;
+  async (id) => {
+    console.log(`slice delete ${id}`);
+    await api.deleteCustomer(id);
+    return id;
   }
 );
 
@@ -51,7 +51,7 @@ const customerSlice = createSlice({
   extraReducers: {
     [createCustomerRecord.fulfilled]: (state, { payload }) => {
       var data = payload.map((item) => [
-        item._id,
+        item.id,
         item.name,
         item.phone.toString(),
         item.address,
@@ -62,7 +62,7 @@ const customerSlice = createSlice({
     },
     [getAllCustomerRecord.fulfilled]: (state, { payload }) => {
       var data = payload.map((item) => [
-        item._id,
+        item.id,
         item.name,
         item.phone.toString(),
         item.address,
@@ -73,19 +73,19 @@ const customerSlice = createSlice({
     },
     [updateCustomerRecord]: (state, { payload }) => {
       var data = payload.map((item) => [
-        item._id,
+        item.id,
         item.name,
         item.phone.toString(),
         item.address,
         item.cnic,
       ]);
       state.data = state.data.map((item) =>
-        item._id === data._id ? data : item
+        item.id === data.id ? data : item
       );
       console.log(`data changed ${state.data}`);
     },
     [deleteCustomerRecord]: (state, { payload }) => {
-      state.data = state.data.filter((item) => item._id !== payload);
+      state.data = state.data.filter((item) => item.id !== payload);
       console.log(`data changed ${state.data}`);
     },
   },

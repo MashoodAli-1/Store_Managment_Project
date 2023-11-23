@@ -51,7 +51,7 @@ export default function PartyTable({ data, header, setParty }) {
                   color="primary"
                   onClick={() => {
                     setParty({
-                      _id: row[0],
+                      id: row[0],
                       name: row[1],
                       address: row[3],
                       phone: row[2],
@@ -66,7 +66,7 @@ export default function PartyTable({ data, header, setParty }) {
                   color="warning"
                   onClick={() => {
                     setParty({
-                      _id: row[0],
+                      id: row[0],
                       name: row[1],
                       phone: row[2],
                       address: row[3],

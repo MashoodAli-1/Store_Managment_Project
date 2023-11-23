@@ -113,7 +113,7 @@ export default function PartyForm() {
       dispatch(getAllPartyRecord());
       Clear();
     } else {
-      dispatch(deletePartyRecord(party._id));
+      dispatch(deletePartyRecord(party.id));
       dispatch(getAllPartyRecord());
       dispatch(getAllPartyRecord());
       Clear();

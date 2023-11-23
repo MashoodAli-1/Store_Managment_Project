@@ -35,10 +35,10 @@ export const updateCategoryRecord = createAsyncThunk(
 
 export const deleteCategoryRecord = createAsyncThunk(
   "category/deleteCategoryRecord",
-  async (_id) => {
-    console.log(`slice delete ${_id}`);
-    await api.deleteCategory(_id);
-    return _id;
+  async (id) => {
+    console.log(`slice delete ${id}`);
+    await api.deleteCategory(id);
+    return id;
   }
 );
 
@@ -48,24 +48,24 @@ const categorySlice = createSlice({
   reducers: {},
   extraReducers: {
     [createCategoryRecord.fulfilled]: (state, { payload }) => {
-      var data = payload.map((item) => [item._id, item.name]);
+      var data = payload.map((item) => [item.id, item.name]);
       console.log(data + "category");
       state.data = data;
     },
     [getAllCategoryRecord.fulfilled]: (state, { payload }) => {
-      var data = payload.map((item) => [item._id, item.name]);
+      var data = payload.map((item) => [item.id, item.name]);
       console.log(data + "category");
       state.data = data;
     },
     [updateCategoryRecord]: (state, { payload }) => {
-      var data = payload.map((item) => [item._id, item.name]);
+      var data = payload.map((item) => [item.id, item.name]);
       state.data = state.data.map((item) =>
-        item._id === data._id ? data : item
+        item.id === data.id ? data : item
       );
       console.log(`data changed ${state.data}`);
     },
     [deleteCategoryRecord]: (state, { payload }) => {
-      state.data = state.data.filter((item) => item._id !== payload);
+      state.data = state.data.filter((item) => item.id !== payload);
       console.log(`data changed ${state.data}`);
     },
   },

@@ -38,7 +38,7 @@ export default function CustomerForm() {
       dispatch(getAllCustomerRecord());
       Clear();
     } else {
-      dispatch(deleteCustomerRecord(customer._id));
+      dispatch(deleteCustomerRecord(customer.id));
       dispatch(getAllCustomerRecord());
       dispatch(getAllCustomerRecord());
       Clear();

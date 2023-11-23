@@ -58,7 +58,7 @@ export default function StockTable({ data, header, setItem }) {
                   color="primary"
                   onClick={() => {
                     setItem({
-                      _id: row[0],
+                      id: row[0],
                       itemName: row[1], // Updated "name" to "itemName"
                       size: row[2],
                       catagory: row[3], // Updated "catagory" to "category"
@@ -74,7 +74,7 @@ export default function StockTable({ data, header, setItem }) {
                   color="warning"
                   onClick={() => {
                     setItem({
-                      _id: row[0],
+                      id: row[0],
                       itemName: row[1], // Updated "name" to "itemName"
                       size: row[2],
                       catagory: row[3], // Updated "catagory" to "category"

@@ -38,10 +38,10 @@ export const updatePartyRecord = createAsyncThunk(
 
 export const deletePartyRecord = createAsyncThunk(
   "party/deletePartyRecord",
-  async (_id) => {
-    console.log(`slice delete ${_id}`);
-    await api.deleteParty(_id);
-    return _id;
+  async (id) => {
+    console.log(`slice delete ${id}`);
+    await api.deleteParty(id);
+    return id;
   }
 );
 
@@ -52,7 +52,7 @@ const partySlice = createSlice({
   extraReducers: {
     [createPartyRecord.fulfilled]: (state, { payload }) => {
       var data = payload.map((item) => [
-        item._id,
+        item.id,
         item.name,
         item.phone.toString(),
         item.address,
@@ -63,7 +63,7 @@ const partySlice = createSlice({
     },
     [getAllPartyRecord.fulfilled]: (state, { payload }) => {
       var data = payload.map((item) => [
-        item._id,
+        item.id,
         item.name,
         item.phone.toString(),
         item.address,
@@ -74,7 +74,7 @@ const partySlice = createSlice({
     },
     [updatePartyRecord.fulfilled]: (state, { payload }) => {
       const updatedParty = [
-        payload._id,
+        payload.id,
         payload.name,
         payload.phone.toString(),
         payload.address,
@@ -82,13 +82,13 @@ const partySlice = createSlice({
       ];
 
       state.data = state.data.map((item) =>
-        item._id === updatedParty._id ? updatedParty : item
+        item.id === updatedParty.id ? updatedParty : item
       );
       console.log(`data changed ${state.data}`);
     },
 
     [deletePartyRecord.fulfilled]: (state, { payload }) => {
-      state.data = state.data.filter((item) => item._id !== payload);
+      state.data = state.data.filter((item) => item.id !== payload);
       console.log(`data changed ${state.data}`);
     },
   },

@@ -36,7 +36,7 @@ export default function CompanyForm() {
       dispatch(getAllCompanyRecord());
       Clear();
     } else {
-      dispatch(deleteCompanyRecord(company._id));
+      dispatch(deleteCompanyRecord(company.id));
       dispatch(getAllCompanyRecord());
       dispatch(getAllCompanyRecord());
       Clear();

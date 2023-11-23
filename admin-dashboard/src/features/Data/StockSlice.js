@@ -38,10 +38,10 @@ export const updateItemRecord = createAsyncThunk(
 
 export const deleteItemRecord = createAsyncThunk(
   "stock/deleteItemRecord",
-  async (_id) => {
-    console.log(`slice delete ${_id}`);
-    await api.deleteItem(_id);
-    return _id;
+  async (id) => {
+    console.log(`slice delete ${id}`);
+    await api.deleteItem(id);
+    return id;
   }
 );
 
@@ -52,7 +52,7 @@ const stockSlice = createSlice({
   extraReducers: {
     [createItemRecord.fulfilled]: (state, { payload }) => {
       var data = payload.map((item) => [
-        item._id,
+        item.id,
         item.name,
         item.size,
         item.catagory, // Assuming the backend returns "catagory" instead of "category"
@@ -64,7 +64,7 @@ const stockSlice = createSlice({
     },
     [getAllItemRecord.fulfilled]: (state, { payload }) => {
       var data = payload.map((item) => [
-        item._id,
+        item.id,
         item.name,
         item.size,
         item.catagory, // Assuming the backend returns "catagory" instead of "category"
@@ -76,7 +76,7 @@ const stockSlice = createSlice({
     },
     [updateItemRecord]: (state, { payload }) => {
       var data = payload.map((item) => [
-        item._id,
+        item.id,
         item.name,
         item.size,
         item.catagory, // Assuming the backend returns "catagory" instead of "category"
@@ -84,12 +84,12 @@ const stockSlice = createSlice({
         item.quantity != null ? item.quantity.toString() : "",
       ]);
       state.data = state.data.map((item) =>
-        item._id === data._id ? data : item
+        item.id === data.id ? data : item
       );
       console.log(`data changed ${state.data}`);
     },
     [deleteItemRecord]: (state, { payload }) => {
-      state.data = state.data.filter((item) => item._id !== payload);
+      state.data = state.data.filter((item) => item.id !== payload);
       console.log(`data changed ${state.data}`);
     },
   },
